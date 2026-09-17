@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import SplashScreen from "./components/SplashScreen.jsx";
 
 import Home from "./pages/Home.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
@@ -16,38 +17,51 @@ import Orders from "./pages/admin/Orders.jsx";
 import Reports from "./pages/admin/Reports.jsx";
 
 const StorefrontLayout = ({ children }) => (
-  <div className="min-h-screen flex flex-col">
+  <>
     <Navbar />
-    <main className="flex-1">{children}</main>
-    <Footer />
-  </div>
+    {children}
+  </>
 );
 
 function App() {
-  return (
-    <Routes>
-      {/* Storefront (public) */}
-      <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
-      <Route path="/product/:id" element={<StorefrontLayout><ProductDetail /></StorefrontLayout>} />
-      <Route path="/cart" element={<StorefrontLayout><Cart /></StorefrontLayout>} />
-      <Route path="/checkout" element={<StorefrontLayout><Checkout /></StorefrontLayout>} />
+  const [showSplash, setShowSplash] = useState(true);
 
-      {/* Admin */}
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute>
-            <AdminDashboard />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Overview />} />
-        <Route path="products" element={<AddProduct />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="reports" element={<Reports />} />
-      </Route>
-    </Routes>
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 1500); // 1.5 second — chahen to 1000 (1 sec) kar dein
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <>
+      <AnimatePresence>{showSplash && <SplashScreen />}</AnimatePresence>
+
+      {!showSplash && (
+        <Routes>
+          <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
+          <Route path="/product/:id" element={<StorefrontLayout><ProductDetail /></StorefrontLayout>} />
+          <Route path="/cart" element={<StorefrontLayout><Cart /></StorefrontLayout>} />
+          <Route path="/checkout" element={<StorefrontLayout><Checkout /></StorefrontLayout>} />
+
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Overview />} />
+            <Route path="products" element={<AddProduct />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="reports" element={<Reports />} />
+          </Route>
+        </Routes>
+      )}
+    </>
   );
 }
 
