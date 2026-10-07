@@ -1,9 +1,9 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import {
   motion,
   useScroll,
+  useSpring,
   useTransform,
   useReducedMotion,
 } from "framer-motion";
@@ -68,6 +68,26 @@ const fadeRight = {
 
 const sideVariant = (idx) =>
   idx % 2 === 0 ? fadeLeft : fadeRight;
+
+// Clean, uniform reveal for product cards — every bottle rises in on
+// the same axis at the same time, just staggered. No left/right slide
+// and no rotate, so neighbouring cards never cross paths mid-animation.
+const productReveal = {
+  hidden: {
+    opacity: 0,
+    y: 28,
+    scale: 0.97,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease,
+    },
+  },
+};
 
 const gridContainer = {
   hidden: {},
@@ -160,23 +180,32 @@ const trustItems = [
   },
 ];
 
-const categoryShowcase = [
-  {
-    label: "For Him",
-    value: "male",
-    note: "Bold, woody, intense",
-  },
-  {
-    label: "For Her",
-    value: "female",
-    note: "Floral, warm, elegant",
-  },
-  {
-    label: "Unisex",
-    value: "unisex",
-    note: "Balanced, versatile",
-  },
-];
+/* =========================================================
+   SKELETON LOADER (replaces the spinner — feels premium,
+   and holds the grid's shape so nothing jumps on load)
+========================================================= */
+
+const SkeletonCard = ({ idx }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{
+      opacity: [0.35, 0.7, 0.35],
+    }}
+    transition={{
+      duration: 1.6,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: idx * 0.12,
+    }}
+    className="rounded-2xl overflow-hidden border border-[#EFECE6] bg-[#F4EFEA]/40"
+  >
+    <div className="aspect-[3/4] bg-[#EFEAE2]" />
+    <div className="p-4 space-y-2">
+      <div className="h-3 w-3/4 bg-[#EFEAE2] rounded-full" />
+      <div className="h-3 w-1/3 bg-[#EFEAE2] rounded-full" />
+    </div>
+  </motion.div>
+);
 
 /* =========================================================
    ANIMATED PRODUCT WRAPPER
@@ -185,18 +214,18 @@ const categoryShowcase = [
 const AnimatedProductCard = ({ product, idx, reduceMotion }) => {
   return (
     <motion.div
-      variants={sideVariant(idx)}
+      variants={productReveal}
       whileHover={
         reduceMotion
           ? undefined
           : {
-              y: -10,
-              scale: 1.018,
+              y: -8,
+              scale: 1.015,
               transition: {
                 type: "spring",
-                stiffness: 280,
-                damping: 22,
-                mass: 0.7,
+                stiffness: 320,
+                damping: 26,
+                mass: 0.6,
               },
             }
       }
@@ -219,7 +248,8 @@ const AnimatedProductCard = ({ product, idx, reduceMotion }) => {
             : {
                 backgroundColor: "rgba(216, 199, 184, 0.18)",
                 transition: {
-                  duration: 0.45,
+                  duration: 0.4,
+                  ease,
                 },
               }
         }
@@ -449,14 +479,23 @@ const Home = () => {
     offset: ["start start", "end start"],
   });
 
+  // A spring-smoothed version of scroll progress so the watermark
+  // drifts rather than tracks the scrollbar 1:1 — this alone is what
+  // makes a parallax read as "smooth" instead of "laggy".
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 26,
+    restDelta: 0.001,
+  });
+
   const watermarkY = useTransform(
-    scrollYProgress,
+    smoothProgress,
     [0, 1],
     reduceMotion ? [0, 0] : [0, 160]
   );
 
   const watermarkOpacity = useTransform(
-    scrollYProgress,
+    smoothProgress,
     [0, 0.35],
     reduceMotion ? [0.035, 0.035] : [0.035, 0]
   );
@@ -514,60 +553,14 @@ const Home = () => {
           HERO
       ===================================================== */}
 
-      <div className="relative z-10">
-        <Hero />
-      </div>
-
-      {/* =====================================================
-          CATEGORY SHOWCASE
-      ===================================================== */}
-
-      <motion.section
-        initial="hidden"
-        whileInView="show"
-        viewport={{
-          once: true,
-          amount: 0.2,
-        }}
-        variants={gridContainer}
-        className="relative z-10 max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 sm:grid-cols-3 gap-6"
+      <motion.div
+        className="relative z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9, ease }}
       >
-        {categoryShowcase.map((cat, idx) => (
-          <motion.div
-            key={cat.value}
-            variants={sideVariant(idx)}
-          >
-            <Link
-              to={`/?category=${cat.value}`}
-              className="group relative block overflow-hidden rounded-2xl border border-[#EFECE6] bg-[#F4EFEA]/60 px-8 py-11 text-center transition-all duration-700 ease-out hover:bg-[#F4EFEA] hover:border-[#DED5CB] hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(44,42,41,0.08)]"
-            >
-              {/* Decorative corner */}
-              <span
-                aria-hidden="true"
-                className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#D4C5B9]/0 group-hover:border-[#D4C5B9] transition-all duration-700"
-              />
-
-              {/* Number */}
-              <span className="block text-[10px] tracking-[0.3em] uppercase text-[#B0A49B] mb-5 transition-transform duration-500 group-hover:-translate-y-1">
-                0{idx + 1}
-              </span>
-
-              <h3 className="font-serif text-2xl text-[#1A1817] transition-transform duration-500 group-hover:-translate-y-1">
-                {cat.label}
-              </h3>
-
-              <p className="text-sm text-[#8C827A] mt-2">
-                {cat.note}
-              </p>
-
-              <span className="inline-flex items-center gap-2 mt-6 text-[10px] uppercase tracking-[0.25em] text-[#6E655D] border-b border-[#D4C5B9] pb-1 transition-all duration-500 group-hover:text-[#1A1817] group-hover:border-[#1A1817] group-hover:gap-3">
-                Explore
-                <ArrowIcon className="w-3 h-3 transition-transform duration-500 group-hover:translate-x-1" />
-              </span>
-            </Link>
-          </motion.div>
-        ))}
-      </motion.section>
+        <Hero />
+      </motion.div>
 
       {/* =====================================================
           BEST SELLERS
@@ -582,7 +575,7 @@ const Home = () => {
             amount: 0.15,
           }}
           variants={fadeUp}
-          className="relative z-10 max-w-7xl mx-auto px-6 pt-4 pb-16 border-b border-[#EFECE6]"
+          className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-16 border-b border-[#EFECE6]"
         >
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
             <div>
@@ -635,7 +628,7 @@ const Home = () => {
           amount: 0.3,
         }}
         variants={gridContainer}
-        className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 sm:grid-cols-3 gap-8 border-b border-[#EFECE6]"
+        className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
       >
         {trustItems.map((t, idx) => {
           const Icon = t.icon;
@@ -644,7 +637,13 @@ const Home = () => {
             <motion.div
               key={t.title}
               variants={sideVariant(idx)}
-              className="group flex items-center gap-4"
+              whileHover={reduceMotion ? undefined : { y: -6 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+              }}
+              className="group flex items-center gap-4 rounded-2xl border border-[#E7DDCD] bg-[#F1E9DC] px-6 py-6 transition-all duration-500 ease-out hover:border-[#D8C6AE] hover:bg-[#F5EDE0] hover:shadow-[0_20px_40px_-20px_rgba(26,24,23,0.22)]"
             >
               <motion.span
                 whileHover={
@@ -660,7 +659,7 @@ const Home = () => {
                   stiffness: 300,
                   damping: 18,
                 }}
-                className="w-12 h-12 rounded-full bg-[#F4EFEA] flex items-center justify-center text-[#8C827A] shrink-0 transition-colors duration-500 group-hover:bg-[#EDE4DB] group-hover:text-[#5C534D]"
+                className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#8C827A] shrink-0 transition-colors duration-500 group-hover:bg-[#1A1817] group-hover:text-white"
               >
                 <Icon className="w-5 h-5" />
               </motion.span>
@@ -715,50 +714,19 @@ const Home = () => {
           </p>
         </motion.div>
 
-        {/* Loading */}
+        {/* Loading — skeleton grid instead of a spinner, so the
+            page doesn't jerk into its final layout on load */}
         {loading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-col items-center justify-center py-32 space-y-5"
+          <div
+            role="status"
+            aria-live="polite"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
           >
-            <div className="relative w-10 h-10">
-              <div className="absolute inset-0 rounded-full border border-[#D4C5B9]" />
-
-              <motion.div
-                animate={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        rotate: 360,
-                      }
-                }
-                transition={{
-                  duration: 1.2,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-                className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#2C2A29]"
-              />
-            </div>
-
-            <motion.p
-              animate={
-                reduceMotion
-                  ? undefined
-                  : {
-                      opacity: [0.45, 1, 0.45],
-                    }
-              }
-              transition={{
-                duration: 1.8,
-                repeat: Infinity,
-              }}
-              className="text-sm tracking-widest uppercase text-[#8C827A]"
-            >
-              Curating experience...
-            </motion.p>
-          </motion.div>
+            <span className="sr-only">Loading fragrances…</span>
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <SkeletonCard key={idx} idx={idx} />
+            ))}
+          </div>
         )}
 
         {/* Error */}

@@ -14,23 +14,31 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = (item, quantity = 1) => {
+    // Accepts either an already-normalized cart item
+    // ({ product, name, price, image } — what ProductCard sends)
+    // or a raw product object ({ _id, name, price, discountPrice, images }).
+    const productId = item.product ?? item._id;
+    const image = item.image ?? item.images?.[0]?.url;
+    const price = item.discountPrice > 0 ? item.discountPrice : item.price;
+    const name = item.name;
+
     setCartItems((prev) => {
-      const existing = prev.find((item) => item.product === product._id);
+      const existing = prev.find((i) => i.product === productId);
       if (existing) {
-        return prev.map((item) =>
-          item.product === product._id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+        return prev.map((i) =>
+          i.product === productId
+            ? { ...i, quantity: i.quantity + quantity }
+            : i
         );
       }
       return [
         ...prev,
         {
-          product: product._id,
-          name: product.name,
-          price: product.discountPrice > 0 ? product.discountPrice : product.price,
-          image: product.images?.[0]?.url,
+          product: productId,
+          name,
+          price,
+          image,
           quantity,
         },
       ];
