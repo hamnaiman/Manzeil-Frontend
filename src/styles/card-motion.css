@@ -1,0 +1,47 @@
+/* Viewport entrance lives on wrappers; hover lives on cards, so they do not fight. */
+.scent-home .card-reveal { min-width:0; }
+.scent-home .card-reveal > .scent-product,
+.scent-home .card-reveal > .film-card,
+.scent-home .card-reveal > .editorial-card {
+  transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s,border-color .35s;
+}
+.scent-home .product-image { isolation:isolate; }
+.scent-home .product-image::after {
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
+  background:linear-gradient(110deg,transparent 20%,#ffffff55 47%,transparent 70%);
+  transform:translateX(-130%); transition:transform .8s cubic-bezier(.22,1,.36,1);
+}
+.scent-home .product-image img { transition:transform .75s cubic-bezier(.22,1,.36,1); }
+.scent-home .quick-add { z-index:2; transition:transform .3s,background-color .3s,color .3s,box-shadow .3s; }
+.scent-home .editorial-card img { transition:transform .8s cubic-bezier(.22,1,.36,1),filter .6s; }
+.scent-home .editorial-card > div { transition:transform .45s cubic-bezier(.22,1,.36,1); }
+.scent-home .editorial-arrow { transition:transform .35s; }
+.scent-home .film-caption h3 { transition:color .3s,transform .35s; }
+.scent-home .film-card video,
+.scent-home .film-placeholder { transition:box-shadow .45s; }
+
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .scent-home .card-reveal > .scent-product:hover,
+  .scent-home .card-reveal > .film-card:hover { transform:translateY(-9px); }
+  .scent-home .card-reveal > .editorial-card:hover { transform:translateY(-7px); box-shadow:0 16px 30px #49351f1a; }
+  .scent-home .scent-product:hover .product-image { box-shadow:0 15px 28px #49351f1c; border-color:#bda688; }
+  .scent-home .scent-product:hover .product-image img { transform:scale(1.065); }
+  .scent-home .scent-product:hover .product-image::after { transform:translateX(130%); }
+  .scent-home .scent-product:hover .quick-add { transform:translateY(-3px); box-shadow:0 5px 15px #49351f25; }
+  .scent-home .editorial-card:hover img { transform:scale(1.055); filter:saturate(1); }
+  .scent-home .editorial-card:hover > div { transform:translateX(4px); }
+  .scent-home .editorial-card:hover .editorial-arrow { transform:translate(3px,-3px); }
+  .scent-home .film-card:hover video,
+  .scent-home .film-card:hover .film-placeholder { box-shadow:0 16px 30px #49351f22; }
+  .scent-home .film-card:hover .film-caption h3 { color:#957346; transform:translateX(3px); }
+}
+@media(prefers-reduced-motion:no-preference) {
+  .scent-home .scent-product:focus-within .product-image { border-color:#a1855f; box-shadow:0 0 0 2px #a1855f26; }
+  .scent-home .editorial-card:focus-visible { transform:translateY(-4px); }
+  .scent-home .quick-add:active { transform:scale(.9); }
+  .scent-home .editorial-card:active { transform:scale(.99); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .scent-home .card-reveal,.scent-home .card-reveal * { animation:none!important; transition:none!important; }
+  .scent-home .product-image::after { display:none; }
+}

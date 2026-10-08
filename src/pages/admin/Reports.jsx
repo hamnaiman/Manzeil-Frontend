@@ -68,9 +68,9 @@ const Reports = () => {
         </p>
       </div>
 
-      <div className="flex items-center justify-between mb-6 print:hidden">
+      <div className="flex flex-wrap gap-3 items-center justify-between mb-6 print:hidden">
         <h1 className="text-xl font-semibold text-gray-900">Sales Reports</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {periods.map((p) => (
             <button
               key={p}
@@ -88,8 +88,8 @@ const Reports = () => {
       {error && <p className="text-red-600 mb-4 print:hidden">{error}</p>}
       {loading && <p className="text-gray-500 print:hidden">Loading...</p>}
 
-      <div className="bg-white border border-gray-100 rounded-lg overflow-hidden print:border-none">
-        <table className="w-full text-sm">
+      <div className="bg-white border border-gray-100 rounded-lg overflow-x-auto print:border-none">
+        <table className="w-full text-sm min-w-[620px]">
           <thead className="bg-gray-50 text-left text-gray-500 print:bg-white">
             <tr>
               <th className="p-3">Period</th>

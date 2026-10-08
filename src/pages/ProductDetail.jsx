@@ -38,7 +38,7 @@ const ProductDetail = () => {
   const images = product.images?.length ? product.images : [];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10 grid md:grid-cols-2 gap-12">
+    <div className="product-detail max-w-6xl mx-auto px-4 sm:px-6 py-8 grid md:grid-cols-2 gap-6 lg:gap-12">
       {/* Image gallery */}
       <div>
         <div className="bg-gray-50 rounded-lg overflow-hidden aspect-square flex items-center justify-center">
@@ -46,22 +46,22 @@ const ProductDetail = () => {
             <img
               src={images[activeImage].url}
               alt={product.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           )}
         </div>
 
         {images.length > 1 && (
-          <div className="flex gap-3 mt-4">
+          <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
             {images.map((img, idx) => (
               <button
                 key={img.publicId || idx}
                 onClick={() => setActiveImage(idx)}
-                className={`w-16 h-16 rounded-md overflow-hidden border-2 transition-colors ${
+                className={`shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-colors ${
                   idx === activeImage ? "border-black" : "border-transparent"
                 }`}
               >
-                <img src={img.url} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-cover" />
+                <img src={img.url} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-contain" />
               </button>
             ))}
           </div>
@@ -93,7 +93,7 @@ const ProductDetail = () => {
           {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
         </p>
 
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <input
             type="number"
             min="1"

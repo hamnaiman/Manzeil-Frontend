@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -21,13 +21,13 @@ import Stories from "./pages/admin/Stories.jsx";
 import WebsiteSettings from "./pages/admin/WebsiteSettings.jsx";
 import ContactMessages from "./pages/admin/ContactMessages.jsx";
 
-const StorefrontLayout = ({ children }) => (
-  <>
-    <Navbar />
-    {children}
-  </>
-);
-
+function StorefrontLayout({ children }) {
+  const location = useLocation();
+  useEffect(() => {
+    if (!location.hash) window.scrollTo({ top: 0, behavior: "instant" });
+  }, [location.pathname]);
+  return <div className="storefront-shell"><Navbar /><div key={location.pathname} className="storefront-page route-enter">{children}</div></div>;
+}
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 

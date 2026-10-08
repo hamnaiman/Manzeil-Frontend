@@ -39,7 +39,7 @@ const Orders = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap gap-3 items-center justify-between mb-6">
         <h1 className="text-xl font-semibold text-gray-900">Orders</h1>
         <select
           value={statusFilter}
@@ -56,8 +56,8 @@ const Orders = () => {
       {error && <p className="text-red-600 mb-4">{error}</p>}
       {loading && <p className="text-gray-500">Loading...</p>}
 
-      <div className="bg-white border border-gray-100 rounded-lg overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white border border-gray-100 rounded-lg overflow-x-auto">
+        <table className="w-full text-sm min-w-[620px]">
           <thead className="bg-gray-50 text-left text-gray-500">
             <tr>
               <th className="p-3">Order ID</th>

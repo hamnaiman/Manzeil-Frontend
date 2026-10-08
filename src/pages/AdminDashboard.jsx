@@ -1,41 +1,37 @@
-import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { NavLink, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Package, Clapperboard, Settings, Mail, ShoppingBag, ChartColumn, Menu, X, LogOut, ArrowUpRight } from "lucide-react";
 import logo from "../assets/manzeil-logo.png";
 
-const AdminDashboard = () => {
+const links = [
+  ["/admin", "Overview", LayoutDashboard],
+  ["/admin/products", "Products", Package],
+  ["/admin/stories", "Stories & Videos", Clapperboard],
+  ["/admin/website", "Website Settings", Settings],
+  ["/admin/messages", "Contact Messages", Mail],
+  ["/admin/orders", "Orders", ShoppingBag],
+  ["/admin/reports", "Reports", ChartColumn],
+];
+export default function AdminDashboard() {
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    navigate("/admin/login");
-  };
-
-  const linkClass = "block px-4 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm";
-
-  return (
-    <div className="flex flex-col md:flex-row min-h-screen">
-      {/* Sidebar hidden automatically when printing a report */}
-      <aside className="print:hidden w-full md:w-56 md:shrink-0 bg-white border-r border-gray-100 p-4">
-        <img src={logo} alt="Manzeil" className="h-7 mb-6" />
-        <nav className="space-y-1">
-          <Link to="/admin" className={linkClass}>Overview</Link>
-          <Link to="/admin/products" className={linkClass}>Add Product</Link>
-          <Link to="/admin/stories" className={linkClass}>Stories &amp; Videos</Link><Link to="/admin/website" className={linkClass}>Website Settings</Link><Link to="/admin/messages" className={linkClass}>Contact Messages</Link>
-          <Link to="/admin/orders" className={linkClass}>Orders</Link>
-          <Link to="/admin/reports" className={linkClass}>Reports</Link>
-        </nav>
-        <button
-          onClick={handleLogout}
-          className="mt-8 text-sm text-red-500 hover:underline"
-        >
-          Logout
-        </button>
-      </aside>
-      <main className="flex-1 min-w-0 p-4 md:p-6 bg-gray-50 print:bg-white print:p-0">
-        <Outlet />
-      </main>
-    </div>
-  );
-};
-
-export default AdminDashboard;
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
+  const toggle = useRef(null);
+  useEffect(() => { setOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    function escape(event) { if (event.key === "Escape" && open) { setOpen(false); toggle.current?.focus(); } }
+    window.addEventListener("keydown", escape);
+    return () => window.removeEventListener("keydown", escape);
+  }, [open]);
+  const title = links.find(([path]) => path === location.pathname)?.[1] || "Dashboard";
+  return <div className="admin-shell">
+    <aside className="admin-sidebar print:hidden">
+      <div className="admin-brand"><Link to="/" aria-label="Manzeil storefront"><img src={logo} alt="Manzeil" /></Link><span>STORE MANAGER</span><button ref={toggle} className="admin-menu-toggle" aria-label={open ? "Close admin menu" : "Open admin menu"} aria-expanded={open} aria-controls="admin-navigation" onClick={() => setOpen(!open)}>{open ? <X size={22} /> : <Menu size={22} />}</button></div>
+      <div id="admin-navigation" className={open ? "admin-navigation is-open" : "admin-navigation"}>
+        <nav aria-label="Administration">{links.map(([path, label, Icon]) => <NavLink key={path} to={path} end={path === "/admin"} className={({ isActive }) => isActive ? "admin-nav-link active" : "admin-nav-link"}><Icon size={18} strokeWidth={1.6} /><span>{label}</span></NavLink>)}</nav>
+        <div className="admin-sidebar-bottom"><Link to="/">View website <ArrowUpRight size={16} /></Link><button onClick={() => { localStorage.removeItem("adminToken"); navigate("/admin/login"); }}><LogOut size={16} /> Sign out</button></div>
+      </div>
+    </aside>
+    <div className="admin-workspace"><header className="admin-topbar print:hidden"><div><span>MANZEIL / ADMIN</span><p>{title}</p></div><Link to="/">View store <ArrowUpRight size={15} /></Link></header><main className="admin-main"><div key={location.pathname} className="route-enter"><Outlet /></div></main></div>
+  </div>;
+}
