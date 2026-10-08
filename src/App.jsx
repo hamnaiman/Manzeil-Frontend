@@ -16,6 +16,11 @@ import AddProduct from "./pages/admin/AddProduct.jsx";
 import Orders from "./pages/admin/Orders.jsx";
 import Reports from "./pages/admin/Reports.jsx";
 
+import Contact from "./pages/Contact.jsx";
+import Stories from "./pages/admin/Stories.jsx";
+import WebsiteSettings from "./pages/admin/WebsiteSettings.jsx";
+import ContactMessages from "./pages/admin/ContactMessages.jsx";
+
 const StorefrontLayout = ({ children }) => (
   <>
     <Navbar />
@@ -42,6 +47,7 @@ function App() {
         <Routes>
           <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
           <Route path="/product/:id" element={<StorefrontLayout><ProductDetail /></StorefrontLayout>} />
+          <Route path="/contact" element={<StorefrontLayout><Contact /></StorefrontLayout>} />
           <Route path="/cart" element={<StorefrontLayout><Cart /></StorefrontLayout>} />
           <Route path="/checkout" element={<StorefrontLayout><Checkout /></StorefrontLayout>} />
 
@@ -57,7 +63,7 @@ function App() {
             <Route index element={<Overview />} />
             <Route path="products" element={<AddProduct />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="reports" element={<Reports />} />
+            <Route path="reports" element={<Reports />} /><Route path="stories" element={<Stories />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
           </Route>
         </Routes>
       )}

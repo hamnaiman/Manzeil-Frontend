@@ -21,7 +21,8 @@ const emptyForm = {
   discountPrice: "",
   sizeMl: "",
   stock: "",
-  isBestSeller: false,
+  isFeatured: false,
+  isActive: true,
 };
 
 const AddProduct = () => {
@@ -89,7 +90,8 @@ const AddProduct = () => {
       discountPrice: product.discountPrice ?? "",
       sizeMl: product.sizeMl ?? "",
       stock: product.stock ?? "",
-      isBestSeller: !!product.isBestSeller,
+      isFeatured: !!product.isFeatured,
+      isActive: product.isActive !== false,
     });
     setExistingImages(product.images || []);
     setImages([]);
@@ -257,7 +259,7 @@ const AddProduct = () => {
             <div className="flex items-center gap-2.5">
               <Star
                 className={`w-4 h-4 ${
-                  form.isBestSeller ? "text-amber-500 fill-amber-500" : "text-gray-300"
+                  form.isFeatured ? "text-amber-500 fill-amber-500" : "text-gray-300"
                 } transition-colors duration-200`}
               />
               <div>
@@ -268,8 +270,8 @@ const AddProduct = () => {
             <div className="relative">
               <input
                 type="checkbox"
-                name="isBestSeller"
-                checked={form.isBestSeller}
+                name="isFeatured"
+                checked={form.isFeatured}
                 onChange={handleChange}
                 className="sr-only peer"
               />
@@ -278,6 +280,7 @@ const AddProduct = () => {
             </div>
           </label>
 
+          <label className="flex items-center gap-3 text-sm"><input type="checkbox" name="isActive" checked={form.isActive} onChange={handleChange} />Visible on storefront</label>
           {/* Image Upload */}
           <div>
             <button
@@ -386,7 +389,7 @@ const AddProduct = () => {
               <div className="flex justify-between">
                 <span className="text-gray-500">Best Sellers</span>
                 <span className="font-medium text-gray-900">
-                  {products.filter((p) => p.isBestSeller).length}
+                  {products.filter((p) => p.isFeatured).length}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -489,7 +492,7 @@ const AddProduct = () => {
                         </span>
                       </td>
                       <td className="p-4">
-                        {p.isBestSeller ? (
+                        {p.isFeatured ? (
                           <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
                         ) : (
                           <span className="text-gray-300">—</span>
