@@ -5,7 +5,7 @@ import { Pause, Play } from "lucide-react";
 import { heroBottles } from "../data/heroBottles.js";
 import "../styles/bottle-hero.css";
 
-export default function Hero({ products = [] }) {
+export default function Hero({ products = [], media = {} }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduced = useReducedMotion();
@@ -24,7 +24,8 @@ export default function Hero({ products = [] }) {
     const timer = window.setTimeout(() => setIndex(current => (current + 1) % heroBottles.length), 2000);
     return () => window.clearTimeout(timer);
   }, [index, playing]);
-  const active = heroBottles[index];
+  const selected = heroBottles[index];
+  const active = {...selected, image: media[selected.key+"Bottle"] || selected.image, decor: media[selected.key+"Decor"] || selected.decor};
   const product = products.find(item => item.name?.trim().toLowerCase() === active.name.toLowerCase());
   return <section className={"bottle-hero theme-" + active.theme + (paused || reduced ? " motion-paused" : "")} aria-roledescription="carousel" aria-label="Featured Manzeil fragrances">
     <div className="bottle-hero-top"><span className="bottle-hero-edition">THE FRAGRANCE COLLECTION <i /> 01—{String(heroBottles.length).padStart(2, "0")}</span><a href="#collection">All fragrances</a></div>
@@ -55,7 +56,7 @@ export default function Hero({ products = [] }) {
             <motion.span key={active.key} initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .7 }}>{active.name}</motion.span>
           </AnimatePresence>
         </div>
-        <img className="bottle-stage-logo" src="/manzeil-logo.png" alt="Manzeil" /><div className="bottle-botanical-backdrop" aria-hidden="true">
+        <img className="bottle-stage-logo" src={media.logo || "/manzeil-logo.png"} alt="Manzeil" /><div className="bottle-botanical-backdrop" aria-hidden="true">
           <AnimatePresence initial={false}>
             <motion.img key={active.key} src={active.decor} alt=""
               initial={reduced ? false : { opacity: 0 }}
@@ -71,7 +72,7 @@ export default function Hero({ products = [] }) {
       <div className="bottle-hero-info">
         <span className="bottle-eyebrow">IN THE SPOTLIGHT</span><h3>{active.name}</h3><span className="bottle-edition">{active.edition}</span>
         {product?.sizeMl > 0 && <span className="bottle-size">{product.sizeMl} ml</span>}
-        <div className="bottle-selector"><span>Find your signature</span><div role="group" aria-label="Choose a fragrance">{heroBottles.map((bottle, itemIndex) => <button key={bottle.key} aria-pressed={index === itemIndex} onClick={() => setIndex(itemIndex)} aria-label={"Show " + bottle.name}><img src={bottle.image} alt="" width="38" height="64" /><span>{bottle.name}</span></button>)}</div></div>
+        <div className="bottle-selector"><span>Find your signature</span><div role="group" aria-label="Choose a fragrance">{heroBottles.map((bottle, itemIndex) => <button key={bottle.key} aria-pressed={index === itemIndex} onClick={() => setIndex(itemIndex)} aria-label={"Show " + bottle.name}><img src={media[bottle.key+"Bottle"] || bottle.image} alt="" width="38" height="64" /><span>{bottle.name}</span></button>)}</div></div>
       </div>
     </div>
     <div className="bottle-hero-bottom"><span>YOUR SCENT. YOUR STORY.</span><span className="bottle-pagination" aria-hidden="true">{heroBottles.map((bottle, i) => <i key={bottle.key} className={index === i ? "active" : ""} />)}</span><button onClick={() => setPaused(!paused)} disabled={!!reduced} aria-label={paused || reduced ? "Resume automatic slideshow" : "Pause automatic slideshow"}>{paused || reduced ? <Play size={12} /> : <Pause size={12} />}</button></div>

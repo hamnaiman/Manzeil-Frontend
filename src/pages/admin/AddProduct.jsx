@@ -1,3 +1,5 @@
+import { mediaSlots } from "../../data/mediaSlots.js";
+import "../../styles/admin-media.css";
 import React, { useEffect, useState, useRef } from "react";
 import {
   Upload,
@@ -28,6 +30,9 @@ const emptyForm = {
 const AddProduct = () => {
   const [form, setForm] = useState(emptyForm);
   const [images, setImages] = useState([]);
+  const [media, setMedia] = useState({});
+  const [preparing, setPreparing] = useState(false);
+  const [newImagesFirst, setNewImagesFirst] = useState(true);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [existingImages, setExistingImages] = useState([]); // images already on product when editing
   const [products, setProducts] = useState([]);
@@ -49,6 +54,7 @@ const AddProduct = () => {
 
   useEffect(() => {
     loadProducts();
+    api.get("/content").then(({data})=>setMedia(data.data.media || {})).catch(()=>{});
   }, []);
 
   // Generate/clean up object URLs for newly selected image previews
@@ -64,7 +70,9 @@ const AddProduct = () => {
   };
 
   const handleFileSelect = (e) => {
-    setImages((prev) => [...prev, ...Array.from(e.target.files)]);
+    const chosen = Array.from(e.target.files);
+    if (chosen.some(file => !file.type.startsWith("image/") || file.size > 5*1024*1024) || images.length + chosen.length > 5) { setError("Select up to 5 images, each under 5 MB."); return; }
+    setImages((prev) => [...prev, ...chosen]);
     e.target.value = "";
   };
 
@@ -76,6 +84,7 @@ const AddProduct = () => {
     setForm(emptyForm);
     setImages([]);
     setExistingImages([]);
+    setNewImagesFirst(true);
     setEditingId(null);
   };
 
@@ -104,12 +113,15 @@ const AddProduct = () => {
     e.preventDefault();
     setError("");
     setMessage("");
+    if (!images.length && !existingImages.length) { setError("Keep at least one product image."); return; }
     setSaving(true);
 
     try {
       const fd = new FormData();
       Object.entries(form).forEach(([key, value]) => fd.append(key, value));
       images.forEach((file) => fd.append("images", file));
+      fd.append("newImagesFirst", String(newImagesFirst));
+      if (editingId) fd.append("retainedImages", JSON.stringify(existingImages.map(image=>image.publicId)));
 
       if (editingId) {
         await api.put(`/products/${editingId}`, fd, {
@@ -143,6 +155,18 @@ const AddProduct = () => {
     }
   };
 
+  async function choosePost(slot) {
+    setPreparing(true); setError("");
+    try {
+      const response = await fetch(media[slot.key] || slot.url);
+      if (!response.ok) throw new Error("Image could not load");
+      const blob = await response.blob();
+      if (!blob.type.startsWith("image/") || blob.size > 5*1024*1024) throw new Error("Image must be under 5 MB");
+      setImages([new File([blob], slot.key+".png", {type:blob.type})]);
+      setNewImagesFirst(true);
+    } catch (err) { setError(err.message); }
+    finally { setPreparing(false); }
+  }
   const inputClass =
     "w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-400 transition-all duration-200";
 
@@ -281,6 +305,7 @@ const AddProduct = () => {
           </label>
 
           <label className="flex items-center gap-3 text-sm"><input type="checkbox" name="isActive" checked={form.isActive} onChange={handleChange} />Visible on storefront</label>
+          <section className="admin-media-library"><h2>Campaign image library</h2><p>Choose a ready-made post as the new cover, then save the product. Current gallery images are kept.</p><div className="admin-post-grid">{mediaSlots.filter(slot=>slot.key.endsWith("Post")).map(slot=><button type="button" key={slot.key} disabled={preparing || saving} onClick={()=>choosePost(slot)}><img src={media[slot.key] || slot.url} alt={slot.label}/><span>Use {slot.label.replace(" — campaign post","")}</span></button>)}</div></section>
           {/* Image Upload */}
           <div>
             <button
@@ -289,7 +314,7 @@ const AddProduct = () => {
               className="w-full border-2 border-dashed border-gray-200 rounded-lg py-6 flex flex-col items-center justify-center gap-2 text-gray-400 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200"
             >
               <Upload className="w-5 h-5" />
-              <span className="text-sm">Click to upload images</span>
+              <span className="text-sm">Upload replacement or gallery images</span>
             </button>
             <input
               ref={fileInputRef}
@@ -300,6 +325,7 @@ const AddProduct = () => {
               className="hidden"
             />
 
+<label className="admin-cover-option"><input type="checkbox" checked={newImagesFirst} onChange={event=>setNewImagesFirst(event.target.checked)}/> Use first new image as storefront cover</label>
             {/* Existing images (when editing) */}
             {existingImages.length > 0 && (
               <div className="mt-3">
@@ -308,9 +334,9 @@ const AddProduct = () => {
                   {existingImages.map((img, idx) => (
                     <div
                       key={idx}
-                      className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 bg-gray-50"
+                      className="admin-gallery-item"
                     >
-                      <img src={img.url} alt="" className="w-full h-full object-cover" />
+                      <img src={img.url} alt={"Gallery image "+(idx+1)} /><span>{idx===0 ? "Current cover" : "Gallery"}</span><button type="button" onClick={()=>{ setExistingImages(current=>[current[idx],...current.filter((_,i)=>i!==idx)]); setNewImagesFirst(false); }}>Make cover</button><button type="button" onClick={()=>setExistingImages(current=>current.filter((_,i)=>i!==idx))}>Remove</button>
                     </div>
                   ))}
                 </div>
@@ -321,7 +347,7 @@ const AddProduct = () => {
             {imagePreviews.length > 0 && (
               <div className="mt-3">
                 <p className="text-xs text-gray-400 mb-2">
-                  {existingImages.length > 0 ? "New images to add" : "Selected images"}
+                  {existingImages.length > 0 ? "Selected uploads — saved with product" : "Selected images"}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {imagePreviews.map((src, idx) => (
@@ -332,7 +358,7 @@ const AddProduct = () => {
                       <button
                         type="button"
                         onClick={() => removeNewImage(idx)}
-                        className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gray-900 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gray-900 text-white rounded-full flex items-center justify-center opacity-100 transition-opacity duration-200"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -347,7 +373,7 @@ const AddProduct = () => {
           <div className="flex items-center gap-3 pt-2">
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || preparing}
               className="flex items-center gap-2 bg-gray-900 text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 transition-colors duration-200"
             >
               {saving ? (
