@@ -10,6 +10,11 @@ import ProductCard from "../components/ProductCard.jsx";
 import Footer from "../components/Footer.jsx";
 import BrandStory from "../components/BrandStory.jsx";
 
+const SERVICES = [
+  [Truck, "Across Pakistan", "Your favourite scents, delivered"],
+  [Banknote, "Cash on delivery", "A little luxury, made easy"],
+  [PackageCheck, "Carefully packed", "From our collection to your doorstep"],
+];
 
 export default function Home() {
   const [params, setParams] = useSearchParams();
@@ -92,9 +97,30 @@ export default function Home() {
         <Reveal className="card-reveal" direction="right" delay={150}><Link to="/?category=male#collection" className="editorial-card editorial-dark"><img src={content?.media?.maleEdit || "/images/posts/business-elegance.png"} loading="lazy" alt="Perfume with warm, rich tones" /><div><span>CONFIDENCE, BOTTLED</span><h3>The masculine edit</h3><p>Deep notes. An unmistakable presence.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
       </div>
     </section>
+
     <BrandStory content={content} />
-    {/* <section id="our-story" className="brand-story"><Reveal><span className="eyebrow">THE MANZEIL PHILOSOPHY</span><h2>{content?.storyTitle || "Some memories begin with a scent."}</h2><p>{content?.storyText || "Discover fragrances that become part of your story."}</p><a href="#collection" className="text-link">Find your own story <ArrowUpRight size={17} /></a></Reveal><div className="story-seal" aria-hidden="true"><span>M</span><small>MANZEIL · JO TUM CHAHO</small></div></section> */}
-    <div className="scent-services">{[[Truck, "Across Pakistan", "Your favourite scents, delivered"], [Banknote, "Cash on delivery", "A little luxury, made easy"], [PackageCheck, "Carefully packed", "From our collection to your doorstep"]].map(([Icon, title, text]) => <div key={title}><Icon size={27} strokeWidth={1.2} /><div><h3>{title}</h3><p>{text}</p></div></div>)}</div>
+
+    {/* Running services strip (left -> right) */}
+    <div className="services-marquee" role="region" aria-label="Delivery and service highlights">
+      <div className="services-fade">
+        <div className="services-track">
+          {[0, 1, 2, 3].map((copy) => (
+            <div className="services-group" key={copy} aria-hidden={copy > 0 ? "true" : undefined}>
+              {SERVICES.map(([Icon, title, text]) => (
+                <div className="service-item" key={title}>
+                  <Icon size={27} strokeWidth={1.2} />
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
     <Footer />
   </main>;
 }
