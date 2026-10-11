@@ -1,3 +1,5 @@
+import Blog, { BlogArticle } from './pages/Blog.jsx';
+import BlogPosts from './pages/admin/BlogPosts.jsx';
 import Collection from "./pages/Collection.jsx";
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -50,6 +52,8 @@ function App() {
           <Route path="/products" element={<StorefrontLayout><Collection /></StorefrontLayout>} />
           <Route path="/collections/:slug" element={<StorefrontLayout><Collection /></StorefrontLayout>} />
           <Route path="/product/:id" element={<StorefrontLayout><ProductDetail /></StorefrontLayout>} />
+          <Route path="/blog" element={<StorefrontLayout><Blog /></StorefrontLayout>} />
+          <Route path="/blog/:slug" element={<StorefrontLayout><BlogArticle /></StorefrontLayout>} />
           <Route path="/contact" element={<StorefrontLayout><Contact /></StorefrontLayout>} />
           <Route path="/cart" element={<StorefrontLayout><Cart /></StorefrontLayout>} />
           <Route path="/checkout" element={<StorefrontLayout><Checkout /></StorefrontLayout>} />
@@ -66,7 +70,7 @@ function App() {
             <Route index element={<Overview />} />
             <Route path="products" element={<AddProduct />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="reports" element={<Reports />} /><Route path="stories" element={<Stories />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
+            <Route path="reports" element={<Reports />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Stories />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
           </Route>
         </Routes>
       )}

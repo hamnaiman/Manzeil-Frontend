@@ -32,7 +32,7 @@ export default function Stories() {
       if (video) body.append("video", video);
       if (poster) body.append("poster", poster);
       await api.request({ method: editing ? "put" : "post", url: editing ? "/stories/" + editing._id : "/stories", data: body, onUploadProgress: (e) => setProgress(e.total ? Math.round(e.loaded / e.total * 100) : 0) });
-      setMessage("Story saved. Published stories appear on the storefront."); reset(); await load();
+      setMessage("Story saved. Published videos can appear in linked blog articles."); reset(); await load();
     } catch (err) { setError(err.response?.data?.message || "Upload failed. Please try again."); }
     finally { setBusy(false); }
   }
@@ -44,7 +44,7 @@ export default function Stories() {
     finally { setBusy(false); }
   }
   return <section className="cms-page">
-    <header><span className="section-pill">STOREFRONT CONTENT</span><h1>Stories & videos</h1><p>Upload films, choose covers, arrange their order and publish when ready.</p></header>
+    <header><span className="section-pill">STOREFRONT CONTENT</span><h1>Video library</h1><p>Upload videos here, then attach them to an article in Blog. Publish the video to make it available to readers.</p></header>
     {error && <p className="cms-error" role="alert">{error}</p>}{message && <p className="cms-success" role="status">{message}</p>}
     <form ref={formRef} onSubmit={save} className="cms-panel">
       <h2>{editing ? "Edit story" : "Create a story"}</h2>

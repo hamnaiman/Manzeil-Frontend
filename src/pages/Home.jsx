@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
-import { ArrowUpRight, Play, Truck, PackageCheck, Banknote, Search } from "lucide-react";
+import { ArrowUpRight, Truck, PackageCheck, Banknote, Search } from "lucide-react";
 import api from "../api/axios.js";
 import Reveal from "../components/Reveal.jsx";
 
 import Hero from "../components/Hero.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import Footer from "../components/Footer.jsx";
+import BlogSection from '../components/BlogSection.jsx';
 import BrandStory from "../components/BrandStory.jsx";
 
 const SERVICES = [
@@ -22,7 +23,7 @@ export default function Home() {
   const location = useLocation();
   const input = useRef(null);
   const [products, setProducts] = useState([]);
-  const [scentFilms, setScentFilms] = useState([]);
+
   const [content, setContent] = useState(null);
   const [contentError, setContentError] = useState(false);
   const [contentVersion, setContentVersion] = useState(0);
@@ -56,8 +57,8 @@ export default function Home() {
   useEffect(() => {
     const controller = new AbortController();
     setContentError(false);
-    Promise.all([api.get("/stories", { signal: controller.signal }), api.get("/content", { signal: controller.signal })])
-      .then(([stories, settings]) => { setScentFilms(stories.data.data); setContent(settings.data.data); })
+    api.get("/content", { signal: controller.signal })
+      .then(({data}) => { setContent(data.data); })
       .catch(() => { if (!controller.signal.aborted) setContentError(true); });
     return () => controller.abort();
   }, [contentVersion]);
@@ -76,21 +77,8 @@ export default function Home() {
       <div className="home-shop-all"><Link className="scent-button" to="/products">Explore all fragrances <ArrowUpRight size={16}/></Link></div>
     </section>
 
-    {contentError && <p className="content-load-error" role="status">Stories are temporarily unavailable. <button onClick={() => setContentVersion(v => v + 1)}>Retry</button></p>}
-    {scentFilms.length > 0 && <section id="scent-films" className="scent-section films-section">
-      <Reveal className="section-heading heading-split"><div><span className="section-pill">02 / THE SCENT JOURNAL</span><h2>A feeling.<br /><em>A fragrance.</em></h2></div><div className="heading-aside"><p>A closer look at the world of Manzeil.<br />Discover the mood behind every note.</p><a className="text-link" href="#collection">Discover the collection <ArrowUpRight size={17} /></a></div></Reveal>
-      <div className="film-grid">{scentFilms.map((film, i) => <Reveal key={film._id} className="card-reveal" delay={(i % 4) * 130}>
-        <article className={`film-card ${film.tone}`}>
-          {film.video?.url ? <video autoPlay muted loop playsInline disablePictureInPicture preload="metadata" poster={film.poster?.url || undefined} aria-label={film.title}><source src={film.video?.url} /></video> : <div className="film-placeholder" aria-label={`${film.title}: video coming soon`}>
-            {film.poster?.url && <img className="film-poster" src={film.poster.url} alt="" loading="lazy" />}
-            <span className="film-index">MANZEIL / MOTION STUDY 0{i + 1}</span>
-            <div className="film-art" aria-hidden="true"><span className="film-line" /><span className="film-number">0{i + 1}</span><em>{film.title}</em></div>
-            <div className="film-status"><span className="film-play"><Play size={16} strokeWidth={1} /></span><span>THE FILM<br /><small>Coming soon</small></span></div>
-          </div>}
-          <div className="film-caption"><h3>{film.title}</h3><p>{film.note}</p></div>
-        </article>
-      </Reveal>)}</div>
-    </section>}
+    {contentError && <p className="content-load-error" role="status">Website settings are temporarily unavailable. <button onClick={() => setContentVersion(v => v + 1)}>Retry</button></p>}
+    <BlogSection />
     <section className="scent-section signature-section">
       <Reveal className="section-heading"><span className="section-pill">03 / THE CURATED EDITS</span><h2>Different moods.<br /><em>One unmistakable you.</em></h2></Reveal>
       <div className="editorial-grid">

@@ -7,7 +7,7 @@ import logo from "../assets/manzeil-logo.png";
 const items = [
   ["/", "Home"], ["/collections/for-her", "For her"],
   ["/collections/for-him", "For him"], ["/collections/unisex", "Unisex"],
-  ["/#scent-films", "Scent stories"], ["/#our-story", "Our story"], ["/contact", "Contact"],
+  ["/blog", "Blog"], ["/#our-story", "Our story"], ["/contact", "Contact"],
 ];
 export default function Navbar() {
   const { cartCount } = useCart();
@@ -33,7 +33,7 @@ export default function Navbar() {
   }, [open]);
   function active(to) {
     const url = new URL(to, window.location.origin);
-    return location.pathname === url.pathname && (url.pathname !== "/" || (location.search === url.search && location.hash === url.hash));
+    return (location.pathname === url.pathname || (url.pathname === "/blog" && location.pathname.startsWith("/blog/"))) && (url.pathname !== "/" || (location.search === url.search && location.hash === url.hash));
   }
   return <header ref={header} className={"scent-header luxe-header" + (scrolled ? " is-scrolled" : "")}>
     <a className="skip-link" href="#main-content">Skip to content</a>

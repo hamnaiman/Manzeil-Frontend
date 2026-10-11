@@ -6,7 +6,8 @@ import logo from "../assets/manzeil-logo.png";
 const links = [
   ["/admin", "Overview", LayoutDashboard],
   ["/admin/products", "Products", Package],
-  ["/admin/stories", "Stories & Videos", Clapperboard],
+  ["/admin/blog", "Blog", Clapperboard],
+  ["/admin/stories", "Video library", Clapperboard],
   ["/admin/website", "Website Settings", Settings],
   ["/admin/messages", "Contact Messages", Mail],
   ["/admin/orders", "Orders", ShoppingBag],
