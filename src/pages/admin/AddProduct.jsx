@@ -1,4 +1,4 @@
-import { mediaSlots } from "../../data/mediaSlots.js";
+
 import "../../styles/admin-media.css";
 import React, { useEffect, useState, useRef } from "react";
 import {
@@ -30,8 +30,6 @@ const emptyForm = {
 const AddProduct = () => {
   const [form, setForm] = useState(emptyForm);
   const [images, setImages] = useState([]);
-  const [media, setMedia] = useState({});
-  const [preparing, setPreparing] = useState(false);
   const [newImagesFirst, setNewImagesFirst] = useState(true);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [existingImages, setExistingImages] = useState([]); // images already on product when editing
@@ -54,7 +52,6 @@ const AddProduct = () => {
 
   useEffect(() => {
     loadProducts();
-    api.get("/content").then(({data})=>setMedia(data.data.media || {})).catch(()=>{});
   }, []);
 
   // Generate/clean up object URLs for newly selected image previews
@@ -155,18 +152,6 @@ const AddProduct = () => {
     }
   };
 
-  async function choosePost(slot) {
-    setPreparing(true); setError("");
-    try {
-      const response = await fetch(media[slot.key] || slot.url);
-      if (!response.ok) throw new Error("Image could not load");
-      const blob = await response.blob();
-      if (!blob.type.startsWith("image/") || blob.size > 5*1024*1024) throw new Error("Image must be under 5 MB");
-      setImages([new File([blob], slot.key+".png", {type:blob.type})]);
-      setNewImagesFirst(true);
-    } catch (err) { setError(err.message); }
-    finally { setPreparing(false); }
-  }
   const inputClass =
     "w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-400 transition-all duration-200";
 
@@ -305,7 +290,6 @@ const AddProduct = () => {
           </label>
 
           <label className="flex items-center gap-3 text-sm"><input type="checkbox" name="isActive" checked={form.isActive} onChange={handleChange} />Visible on storefront</label>
-          <section className="admin-media-library"><h2>Campaign image library</h2><p>Choose a ready-made post as the new cover, then save the product. Current gallery images are kept.</p><div className="admin-post-grid">{mediaSlots.filter(slot=>slot.key.endsWith("Post")).map(slot=><button type="button" key={slot.key} disabled={preparing || saving} onClick={()=>choosePost(slot)}><img src={media[slot.key] || slot.url} alt={slot.label}/><span>Use {slot.label.replace(" — campaign post","")}</span></button>)}</div></section>
           {/* Image Upload */}
           <div>
             <button
@@ -314,7 +298,7 @@ const AddProduct = () => {
               className="w-full border-2 border-dashed border-gray-200 rounded-lg py-6 flex flex-col items-center justify-center gap-2 text-gray-400 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200"
             >
               <Upload className="w-5 h-5" />
-              <span className="text-sm">Upload replacement or gallery images</span>
+              <span className="text-sm">Upload product photos</span><span className="text-xs">Recommended: 1200 × 1200 px (1:1) · JPG, PNG or WebP · Max 5 MB each · Up to 5 new photos</span>
             </button>
             <input
               ref={fileInputRef}
@@ -373,7 +357,7 @@ const AddProduct = () => {
           <div className="flex items-center gap-3 pt-2">
             <button
               type="submit"
-              disabled={saving || preparing}
+              disabled={saving}
               className="flex items-center gap-2 bg-gray-900 text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 transition-colors duration-200"
             >
               {saving ? (
@@ -433,9 +417,9 @@ const AddProduct = () => {
               <h3 className="text-sm font-medium text-gray-900">Image Tips</h3>
             </div>
             <ul className="text-xs text-gray-500 space-y-1.5 leading-relaxed">
-              <li>• Use square (1:1) images for a consistent grid</li>
+              <li>• Recommended size: 1200 × 1200 px (square)</li>
               <li>• Upload at least 2–3 angles per product</li>
-              <li>• Keep file size under 2MB for faster loading</li>
+              <li>• Maximum 5 MB per photo; under 2 MB loads faster</li>
             </ul>
           </div>
         </div>

@@ -82,3 +82,21 @@
  .luxe-ticker-group[aria-hidden],.luxe-ticker-message[aria-hidden],.luxe-ticker-control { display:none; }
  .luxe-ticker-message { white-space:normal; font-size:8px; gap:8px; padding:4px 12px; }
 }
+@media(min-width:1061px){.luxe-links>a{padding-inline:9px}.luxe-nav{gap:16px}}
+
+.luxe-shop-now { display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; min-height:40px; padding:10px 16px; border-radius:24px; background:#33291e; color:#fff4e3; font-size:11px; transition:background .25s,transform .25s; }
+.luxe-shop-now:hover { background:#80623f; transform:translateY(-2px); }
+@media(max-width:640px) {
+ .luxe-shop-now { padding:9px 10px; font-size:10px; min-height:36px; }
+ .luxe-shop-now svg { display:none; }
+ .luxe-nav { gap:8px; }
+ .luxe-actions { gap:3px; }
+ .luxe-search { min-width:30px; }
+ .luxe-bag { min-width:36px; gap:3px; }
+ .luxe-bag>span { width:16px; height:16px; font-size:8px; }
+ .luxe-menu { width:36px; height:40px; }
+}
+@media(max-width:350px) {
+ .luxe-nav { flex-wrap:wrap; justify-content:center; padding-block:8px; }
+ .luxe-actions { width:100%; justify-content:center; gap:12px; }
+}

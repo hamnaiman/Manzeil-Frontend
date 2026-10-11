@@ -45,3 +45,10 @@
   .scent-home .card-reveal,.scent-home .card-reveal * { animation:none!important; transition:none!important; }
   .scent-home .product-image::after { display:none; }
 }
+
+@media(prefers-reduced-motion:no-preference) {
+ .homepage .card-reveal > .scent-product,.homepage .card-reveal > .film-card,.homepage .card-reveal > .editorial-card { transition-duration:.7s; }
+ .homepage .product-image img,.homepage .editorial-card img { transition-duration:1.05s; }
+ .homepage .product-image::after { transition-duration:1.1s; }
+ .homepage .bottle-hero { transition-duration:1.25s; }
+}

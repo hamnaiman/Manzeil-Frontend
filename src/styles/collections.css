@@ -1,0 +1,109 @@
+.category-hero{position:relative;isolation:isolate;overflow:hidden;max-width:1240px;min-height:410px;margin:20px auto 0;border-radius:22px;background:#dbbcab;color:#33261f}
+.category-hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.category-hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,#e7d4c2ee 0%,#e7d4c2b0 32%,transparent 70%)}
+.category-dark{color:#f8eddf;background:#241b15}.category-dark .category-hero-shade{background:linear-gradient(90deg,#201710ed,#20171098 40%,transparent 80%)}
+.category-amber .category-hero-photo{object-position:75% 50%;width:65%;left:35%}.category-amber .category-hero-shade{background:linear-gradient(90deg,#e6d5bfff 30%,#e6d5bfb0 55%,transparent)}
+.category-hero-copy{position:relative;z-index:1;width:52%;padding:28px 48px 48px}.category-breadcrumb{display:flex;gap:10px;font-size:10px;opacity:.8;margin-bottom:32px}.category-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase}
+.category-hero h1{font:400 clamp(36px,4.2vw,58px)/1.05 Georgia,serif;margin:17px 0;letter-spacing:-1.5px}.category-hero-copy>p{font-size:13px;line-height:1.9;max-width:330px;opacity:.85}
+.category-hero-cta{display:inline-flex;align-items:center;gap:22px;background:#fff8ee;color:#3b2e20;border-radius:30px;padding:14px 20px;font-size:11px;margin-top:22px;transition:transform .3s,box-shadow .3s}.category-hero-cta:hover{transform:translateY(-3px);box-shadow:0 8px 22px #0002}
+.category-hero-note{position:absolute;right:26px;bottom:24px;font-size:8px;letter-spacing:3px;color:#fff;text-shadow:0 1px 5px #0008}
+.category-list-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}.category-list-heading h2{font-size:34px;margin-top:12px}.category-list-heading>span{font-size:11px;color:#8b7a67}
+.category-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}.category-tabs a{padding:11px 18px;border:1px solid #e0d5c5;border-radius:25px;font-size:12px;transition:background .25s,color .25s}.category-tabs a[aria-current],.category-tabs a:hover{background:#30281f;color:#fff8ec;border-color:#30281f}
+.catalog-filters{display:grid;grid-template-columns:1.6fr .8fr .8fr 1.2fr;gap:14px;padding:20px;background:#f1ece4;border:1px solid #e4d9ca;border-radius:14px;margin-bottom:28px}
+.catalog-filters label{min-width:0}.catalog-filters label>span{display:block;font-size:10px;color:#74634f;margin-bottom:8px}.catalog-filters input:not([type=checkbox]),.catalog-filters select{width:100%;min-width:0;height:42px;border:1px solid #dcd1c0;background:#fffcf7;border-radius:7px;padding:10px;font-size:12px;color:#332a20}
+.catalog-search>div{position:relative}.catalog-search svg{position:absolute;left:12px;top:12px;color:#9a8161}.catalog-search input{padding-left:36px!important}
+.catalog-filters .catalog-stock{display:flex;align-items:center;gap:8px}.catalog-stock input{width:16px;height:16px;accent-color:#80633e}.catalog-filters .catalog-stock>span{margin:0}
+.catalog-apply{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px 18px;border-radius:7px;background:#342a20;color:#fff8ec;font-size:11px}.catalog-clear{font-size:11px;text-decoration:underline;justify-self:start}.catalog-notice{font-size:12px;padding:10px 0}.catalog-notice button{text-decoration:underline}
+#collection-products{scroll-margin-top:140px}
+@media(max-width:1288px){.category-hero{margin-inline:24px}}
+@media(max-width:800px){.category-hero-copy{padding:26px 30px 38px;width:58%}.category-hero h1{font-size:40px}.catalog-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.category-hero{margin:16px 16px 0;min-height:530px;border-radius:16px}.category-hero-photo{height:65%;object-position:75% center}.category-hero-shade{background:linear-gradient(0deg,#e7d4c2 30%,#e7d4c2ed 40%,transparent 70%)}.category-dark .category-hero-shade{background:linear-gradient(0deg,#201710 30%,#201710ed 40%,transparent 70%)}.category-amber .category-hero-photo{width:100%;left:0}.category-amber .category-hero-shade{background:linear-gradient(0deg,#e6d5bf 30%,#e6d5bfed 40%,transparent 75%)}.category-hero-copy{padding:215px 24px 30px;width:100%}.category-breadcrumb{margin-bottom:17px}.category-hero h1{font-size:37px;max-width:310px}.category-hero-copy>p{font-size:12px}.category-hero-note{display:none}.category-list-heading h2{font-size:28px}.category-tabs a{font-size:11px;padding:9px 13px}.catalog-filters{padding:14px;gap:12px}.catalog-search{grid-column:1/-1}.catalog-apply{grid-column:1/-1}.category-list-heading{align-items:start}}
+@media(prefers-reduced-motion:reduce){.category-hero *,.category-tabs a{transition:none!important}}
+
+/* Fit the complete subject inside the existing banner height. */
+.category-hero-photo { object-fit:contain; object-position:right top; }
+.category-rose { background:#e7d4c2; }
+.category-amber { background:#e6d5bf; }
+.category-amber .category-hero-photo { object-fit:contain; object-position:right center; padding:12px 28px 12px 0; }
+.category-hero-shade { background:linear-gradient(90deg,#e7d4c2 0%,#e7d4c2e8 32%,#e7d4c200 62%); }
+.category-dark .category-hero-shade { background:linear-gradient(90deg,#201710 0%,#201710d9 34%,#20171000 62%); }
+.category-amber .category-hero-shade { background:linear-gradient(90deg,#e6d5bf 30%,#e6d5bf99 52%,#e6d5bf00 68%); }
+@media(max-width:540px) {
+ .category-hero-photo { object-position:center top; }
+ .category-amber .category-hero-photo { height:240px; object-position:center top; padding:8px 0; }
+ .category-hero-shade { background:linear-gradient(0deg,#e7d4c2 46%,#e7d4c200 68%); }
+ .category-dark .category-hero-shade { background:linear-gradient(0deg,#201710 46%,#20171000 68%); }
+ .category-amber .category-hero-shade { background:linear-gradient(0deg,#e6d5bf 52%,#e6d5bf00 65%); }
+}
+
+/* One continuous campaign banner, with copy over the image's empty left side. */
+.category-hero:not(.collection-all) .category-hero-photo { width:100%; height:100%; inset:0; padding:0; object-fit:cover; object-position:center top; }
+.category-hero:not(.collection-all) .category-hero-copy { background:none; width:50%; }
+.category-hero:not(.collection-all) .category-hero-shade { background:linear-gradient(90deg,#eddfcb35,transparent 62%); }
+.category-dark:not(.collection-all) .category-hero-shade { background:linear-gradient(90deg,#17110a55,transparent 65%); }
+@media(min-width:801px) {
+ .category-hero:not(.collection-all) { min-height:410px; }
+ .category-hero:not(.collection-all) .category-hero-copy { padding:28px 40px 36px; }
+}
+@media(min-width:541px) and (max-width:1000px) {
+ .category-hero:not(.collection-all) .category-hero-photo { object-fit:fill; }
+ .category-hero:not(.collection-all) .category-hero-copy { padding:24px; width:51%; }
+ .category-hero:not(.collection-all) h1 { font-size:36px; }
+}
+@media(max-width:540px) {
+ .category-hero:not(.collection-all) .category-hero-photo { object-fit:cover; object-position:72% top; }
+ .category-hero:not(.collection-all) .category-hero-copy { width:100%; padding:230px 24px 28px; }
+ .category-hero:not(.collection-all) .category-hero-shade { background:linear-gradient(0deg,#eedfcbf5 0%,#eedfcbb3 42%,transparent 76%); }
+ .category-dark:not(.collection-all) .category-hero-shade { background:linear-gradient(0deg,#201710f5 0%,#201710b3 42%,transparent 76%); }
+}
+
+/* Shop overview: two signatures frame the centred introduction. */
+.collection-all { background:radial-gradient(ellipse at 50% 40%,#fff9ef 0%,#eadcc8 70%); min-height:410px; }
+.collection-all .category-hero-shade { display:none; }
+.shop-bottle-pair { position:absolute;inset:0;pointer-events:none; }
+.shop-side-bottle { position:absolute;top:38px;width:28%;height:320px;object-fit:contain;filter:drop-shadow(0 18px 12px #54371c26); }
+.shop-bottle-left { left:1%; }
+.shop-bottle-right { right:1%; }
+.collection-all .category-hero-copy { width:48%;margin:auto;padding:28px 0 38px;text-align:center;background:none; }
+.collection-all .category-breadcrumb { justify-content:center; }
+.collection-all h1 { font-size:clamp(34px,4vw,54px); }
+.collection-all .category-hero-copy>p { margin-inline:auto; }
+.collection-all .category-hero-note { color:#8b7051;text-shadow:none; }
+@media(max-width:800px) {
+ .shop-side-bottle { width:27%;height:275px;top:65px; }
+ .collection-all .category-hero-copy { width:49%;padding-top:28px; }
+ .collection-all h1 { font-size:36px; }
+}
+@media(max-width:540px) {
+ .collection-all { min-height:530px; }
+ .collection-all .category-hero-copy { width:100%;padding:24px 25px 225px; }
+ .collection-all h1 { font-size:36px;max-width:320px;margin-inline:auto; }
+ .collection-all .category-breadcrumb { margin-bottom:18px; }
+ .shop-side-bottle { top:auto;bottom:12px;height:200px;width:45%; }
+ .shop-bottle-left { left:3%; }
+ .shop-bottle-right { right:3%; }
+}
+
+/* Botanical arrangements frame the bottles, leaving the central copy clear. */
+.collection-all {
+ background:radial-gradient(ellipse at 8% 70%,#d7b56e55,transparent 36%),radial-gradient(ellipse at 95% 65%,#d99ca855,transparent 35%),radial-gradient(ellipse at 50% 35%,#fffaf2 15%,#eadcc8 85%);
+}
+.shop-botanical { position:absolute;bottom:-22px;width:29%;height:290px;z-index:0; }
+.shop-botanical img { width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 12px #73522d20); }
+.shop-botanical-citrus { left:-6%;transform:rotate(-14deg); }
+.shop-botanical-floral { right:-6%;transform:rotate(12deg); }
+.shop-side-bottle { z-index:1; }
+.shop-bottle-pair::before,.shop-bottle-pair::after { content:"";position:absolute;bottom:36px;width:22%;height:28px;border-radius:50%;filter:blur(12px);background:#78533024; }
+.shop-bottle-pair::before { left:4%; }
+.shop-bottle-pair::after { right:4%; }
+@media(min-width:541px) and (max-width:800px) {
+ .shop-botanical { width:30%;height:235px;bottom:0; }
+}
+@media(max-width:540px) {
+ .shop-botanical { width:43%;height:175px;bottom:-18px; }
+ .shop-botanical-citrus { left:-10%; }
+ .shop-botanical-floral { right:-10%; }
+ .shop-bottle-pair::before,.shop-bottle-pair::after { bottom:12px;width:34%;height:18px; }
+ .shop-bottle-pair::before { left:7%; }
+ .shop-bottle-pair::after { right:7%; }
+}

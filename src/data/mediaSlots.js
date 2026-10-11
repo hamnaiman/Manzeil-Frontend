@@ -1,5 +1,7 @@
 import { heroBottles } from "./heroBottles.js";
+import { collections } from "./collections.js";
 export const mediaSlots = [
+ ...Object.entries(collections).map(([key,item])=>({key:key+"Hero",label:item.label+" — collection hero",url:item.image})),
  {key:"logo",label:"Hero logo",url:"/manzeil-logo.png"},
  ...heroBottles.flatMap(b => [
   {key:b.key+"Bottle",label:b.name+" — transparent bottle",url:b.image},
@@ -10,3 +12,12 @@ export const mediaSlots = [
  {key:"maleEdit",label:"Masculine collection banner",url:"/images/posts/business-elegance.png"}
 ];
 export const mediaUrl = (media,key) => media?.[key] || mediaSlots.find(slot=>slot.key===key)?.url;
+
+export function mediaGuidance(key) {
+ if(key.endsWith("Hero"))return {size:"2400 × 800 px",ratio:"3:1",note:"Keep the left 50% clear for text. Keep heads, hands and bottles inside the right half with space around the edges.",format:"JPG or WebP"};
+ if(key.endsWith("Bottle"))return {size:"1000 × 1400 px",ratio:"5:7",note:"Transparent background. Centre the entire bottle with margin around the cap and base.",format:"Transparent PNG"};
+ if(key.endsWith("Decor"))return {size:"1000 × 1000 px",ratio:"1:1",note:"Keep the full fruit, flower or wood arrangement inside the image.",format:"Transparent PNG"};
+ if(key.endsWith("Post"))return {size:"1200 × 1200 px",ratio:"1:1",note:"Keep the bottle and label in the centre, with margin on all sides.",format:"JPG, PNG or WebP"};
+ if(key==="logo")return {size:"600 × 240 px",ratio:"5:2",note:"Use a clean logo with minimal empty space.",format:"Transparent PNG"};
+ return {size:"1600 × 900 px",ratio:"16:9",note:"Keep the subject centred. Responsive banners may crop the outer edges.",format:"JPG or WebP"};
+}

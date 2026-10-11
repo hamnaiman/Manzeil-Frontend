@@ -1,3 +1,4 @@
+import Collection from "./pages/Collection.jsx";
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
@@ -46,6 +47,8 @@ function App() {
       {!showSplash && (
         <Routes>
           <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
+          <Route path="/products" element={<StorefrontLayout><Collection /></StorefrontLayout>} />
+          <Route path="/collections/:slug" element={<StorefrontLayout><Collection /></StorefrontLayout>} />
           <Route path="/product/:id" element={<StorefrontLayout><ProductDetail /></StorefrontLayout>} />
           <Route path="/contact" element={<StorefrontLayout><Contact /></StorefrontLayout>} />
           <Route path="/cart" element={<StorefrontLayout><Cart /></StorefrontLayout>} />

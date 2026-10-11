@@ -17,7 +17,7 @@ export default function Reveal({ children, className = "", delay = 0, direction 
       animation = element.animate([
         { opacity: 0.12, transform: offset + " scale(.965)" },
         { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
-      ], { duration: 850, delay, easing: "cubic-bezier(.16,1,.3,1)", fill: "backwards" });
+      ], { duration: element.closest(".homepage") ? 1150 : 850, delay, easing: "cubic-bezier(.16,1,.3,1)", fill: "backwards" });
     }, { threshold: 0.12, rootMargin: "0px 0px -16px 0px" });
     const stop = () => { if (preference.matches) { animation?.cancel(); observer.disconnect(); } };
     preference.addEventListener("change", stop);

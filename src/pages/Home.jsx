@@ -42,7 +42,7 @@ export default function Home() {
     const controller = new AbortController();
     setLoading(true); setError("");
     api.get("/products", {
-      params: { category, page, limit: 12, search, sort: sort === "low" ? "priceAsc" : sort === "high" ? "priceDesc" : "featured" },
+      params: { category, page, limit: 8, search, sort: sort === "low" ? "priceAsc" : sort === "high" ? "priceDesc" : "featured" },
       signal: controller.signal,
     }).then(({ data }) => {
       if (!Array.isArray(data.data)) throw new Error("Invalid product response");
@@ -66,13 +66,14 @@ export default function Home() {
     if (params.has("search")) input.current?.focus({ preventScroll: true });
   }, [location, params]);
   const filtered = products;
-  return <main id="main-content" className="scent-home">
+  return <main id="main-content" className="scent-home homepage">
     <h1 className="sr-only">Manzeil — signature fragrances</h1>{!category && !params.has("search") && <Hero products={products} media={content?.media} />}
     <section id="collection" className="scent-section collection-section">
       <Reveal className="section-heading"><span className="section-pill">01 / FIND YOUR SIGNATURE</span><h2>Meet your next <em>signature.</em></h2><p>Find the one that feels effortlessly yours.</p></Reveal>
       <div className="collection-toolbar"><div className="collection-filters" aria-label="Filter by category">{[["", "All scents"], ["female", "For her"], ["male", "For him"], ["unisex", "Unisex"]].map(([value, label]) => <button key={value} aria-pressed={category === value} className={category === value ? "active" : ""} onClick={() => { const next = new URLSearchParams(params); value ? next.set("category", value) : next.delete("category"); setPage(1); setParams(next, { preventScrollReset: true }); }}>{label}</button>)}</div><label className="collection-search"><Search size={16} /><input ref={input} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Find your fragrance" aria-label="Search collection" type="search" /></label><label className="collection-sort"><span>Sort by</span><select aria-label="Sort fragrances" value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }}><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></label></div>
       {loading ? <div className="product-grid" aria-label="Loading collection" aria-busy="true">{[0, 1, 2, 3].map((i) => <div key={i} className="scent-skeleton" />)}</div> : error ? <div className="collection-empty" role="alert"><p>{error}</p><button className="scent-button" onClick={() => setRetry(retry + 1)}>Try again</button></div> : filtered.length ? <div className="product-grid">{filtered.map((product, index) => <Reveal key={product._id} className="card-reveal" delay={(index % 4) * 110}><ProductCard product={product} media={content?.media} /></Reveal>)}</div> : <div className="collection-empty"><h3>{query ? "No matching fragrances" : "Something beautiful is on its way."}</h3><p>{query ? "Try a different name or explore another category." : "Check back soon to discover the collection."}</p></div>}
       {!loading && !error && <div className="catalog-pagination"><span>{pagination.total} fragrances</span><div><button disabled={page <= 1} onClick={() => setPage(p => p - 1)}>Previous</button><span>Page {page} of {Math.max(1, pagination.pages)}</span><button disabled={page >= pagination.pages} onClick={() => setPage(p => p + 1)}>Next</button></div></div>}
+      <div className="home-shop-all"><Link className="scent-button" to="/products">Explore all fragrances <ArrowUpRight size={16}/></Link></div>
     </section>
 
     {contentError && <p className="content-load-error" role="status">Stories are temporarily unavailable. <button onClick={() => setContentVersion(v => v + 1)}>Retry</button></p>}
@@ -93,8 +94,8 @@ export default function Home() {
     <section className="scent-section signature-section">
       <Reveal className="section-heading"><span className="section-pill">03 / THE CURATED EDITS</span><h2>Different moods.<br /><em>One unmistakable you.</em></h2></Reveal>
       <div className="editorial-grid">
-        <Reveal className="card-reveal" direction="left"><Link to="/?category=female#collection" className="editorial-card editorial-rose"><img src={content?.media?.femaleEdit || "/images/posts/serene.png"} loading="lazy" alt="A delicate perfume composition" /><div><span>SOFT, YET UNFORGETTABLE</span><h3>The feminine edit</h3><p>Floral whispers. Beautiful impressions.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
-        <Reveal className="card-reveal" direction="right" delay={150}><Link to="/?category=male#collection" className="editorial-card editorial-dark"><img src={content?.media?.maleEdit || "/images/posts/business-elegance.png"} loading="lazy" alt="Perfume with warm, rich tones" /><div><span>CONFIDENCE, BOTTLED</span><h3>The masculine edit</h3><p>Deep notes. An unmistakable presence.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
+        <Reveal className="card-reveal" direction="left"><Link to="/collections/for-her" className="editorial-card editorial-rose"><img src={content?.media?.femaleEdit || "/images/posts/serene.png"} loading="lazy" alt="A delicate perfume composition" /><div><span>SOFT, YET UNFORGETTABLE</span><h3>The feminine edit</h3><p>Floral whispers. Beautiful impressions.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
+        <Reveal className="card-reveal" direction="right" delay={150}><Link to="/collections/for-him" className="editorial-card editorial-dark"><img src={content?.media?.maleEdit || "/images/posts/business-elegance.png"} loading="lazy" alt="Perfume with warm, rich tones" /><div><span>CONFIDENCE, BOTTLED</span><h3>The masculine edit</h3><p>Deep notes. An unmistakable presence.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
       </div>
     </section>
 

@@ -430,4 +430,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .services-track { animation: none; }
-}
+}.home-shop-all{display:flex;justify-content:center;margin-top:28px;}
+
+.story-v2 .sv2-copy { color:#3d3025;font-size:clamp(16px,1.35vw,18px);font-weight:600;line-height:1.85;max-width:520px;white-space:pre-line; }

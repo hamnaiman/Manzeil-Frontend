@@ -5,8 +5,8 @@ import { useCart } from "../context/CartContext.jsx";
 import logo from "../assets/manzeil-logo.png";
 
 const items = [
-  ["/", "Home"], ["/?category=female#collection", "For her"],
-  ["/?category=male#collection", "For him"], ["/?category=unisex#collection", "Unisex"],
+  ["/", "Home"], ["/collections/for-her", "For her"],
+  ["/collections/for-him", "For him"], ["/collections/unisex", "Unisex"],
   ["/#scent-films", "Scent stories"], ["/#our-story", "Our story"], ["/contact", "Contact"],
 ];
 export default function Navbar() {
@@ -33,7 +33,7 @@ export default function Navbar() {
   }, [open]);
   function active(to) {
     const url = new URL(to, window.location.origin);
-    return location.pathname === url.pathname && location.search === url.search && location.hash === url.hash;
+    return location.pathname === url.pathname && (url.pathname !== "/" || (location.search === url.search && location.hash === url.hash));
   }
   return <header ref={header} className={"scent-header luxe-header" + (scrolled ? " is-scrolled" : "")}>
     <a className="skip-link" href="#main-content">Skip to content</a>
@@ -52,8 +52,8 @@ export default function Navbar() {
         {items.map(([to, label], i) => <Link key={to} to={to} aria-current={active(to) ? "page" : undefined} style={{ "--link-order": i }}><span>{label}</span><ArrowUpRight size={15} /></Link>)}
         <div className="luxe-mobile-footer">MANZEIL <span>JO TUM CHAHO</span></div>
       </nav>
-      <div className="luxe-actions">
-        <Link className="luxe-search" to="/?search=1#collection" aria-label="Search fragrances"><Search size={17} strokeWidth={1.6} /><span>Discover</span></Link>
+      <div className="luxe-actions"><Link className="luxe-shop-now" to="/products">Shop now <ArrowUpRight size={14} /></Link>
+        <Link className="luxe-search" to="/products?search=1" aria-label="Search fragrances"><Search size={17} strokeWidth={1.6} /></Link>
         <span className="luxe-action-divider" aria-hidden="true" />
         <Link className="luxe-bag" to="/cart" aria-label={"Shopping bag, " + cartCount + " items"}><ShoppingBag size={20} strokeWidth={1.5} /><span key={cartCount}>{cartCount}</span></Link>
         <button ref={toggle} className="luxe-menu" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="store-navigation" onClick={() => setOpen(!open)}>{open ? <X size={22} /> : <Menu size={22} />}</button>
