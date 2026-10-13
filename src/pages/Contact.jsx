@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Clock, ArrowUpRight, ArrowRight, Check, LoaderCircle, LockKeyhole, Sparkles, Plus } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+import { Mail, Phone, MapPin, Clock, ArrowUpRight, ArrowRight, Check, LoaderCircle, LockKeyhole, Sparkles, Plus, Star } from "lucide-react";
 import api from "../api/axios.js";
 import Footer from "../components/Footer.jsx";
 import "../styles/contact.css";
@@ -10,7 +10,10 @@ const topics = ["Find my fragrance", "My order", "Something else"];
 
 export default function Contact() {
   const [content, setContent] = useState(null);
-  const [form, setForm] = useState(blank);
+  const [params] = useSearchParams();
+  const [kind, setKind] = useState(params.get('feedback') === '1' ? 'feedback' : 'message');
+  const [rating, setRating] = useState(0);
+  const [form, setForm] = useState({...blank, subject: params.get('feedback') === '1' ? 'Customer feedback' : ''});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -38,11 +41,15 @@ export default function Contact() {
       setError("Please complete every field before sending your message.");
       return;
     }
+    if (kind === 'feedback' && !rating) { setError('Please choose a star rating.'); return; }
+    payload.kind = kind;
+    if (kind === 'feedback') payload.rating = rating;
     setBusy(true);
     try {
       const { data } = await api.post("/contact", payload);
       setSuccess(data.message || "Thank you. Your message has been received.");
-      setForm(blank);
+      setForm({...blank, subject: kind === "feedback" ? "Customer feedback" : ""});
+      setRating(0);
     } catch (err) {
       setError(err.response?.data?.message || "Your message could not be sent. Your draft is still here—please try again.");
     } finally { setBusy(false); }
@@ -78,19 +85,21 @@ export default function Contact() {
       <div className="contact-form-panel">
         {success ? <div className="contact-confirmation" ref={successRef} tabIndex={-1} role="status"><span className="confirmation-check"><Check size={30} strokeWidth={1.4} /></span><span className="contact-overline">NOTE RECEIVED</span><h2>A little hello.<br /><em>A lovely beginning.</em></h2><p>{success}</p><div className="contact-confirmation-actions"><Link to="/#collection" className="contact-submit">Explore fragrances <ArrowUpRight size={17} /></Link><button type="button" onClick={() => { setSuccess(""); requestAnimationFrame(() => nameRef.current?.focus()); }}>Send another message <ArrowRight size={15} /></button></div></div> :
         <form onSubmit={send} aria-busy={busy}>
-          <div className="contact-form-heading"><div><span className="contact-overline">YOUR WORDS, OUR ATTENTION</span><h2>Send us a note.</h2></div><span className="contact-envelope" aria-hidden="true"><Mail size={25} strokeWidth={1} /></span></div>
+          <div className="contact-form-heading"><div><span className="contact-overline">YOUR WORDS, OUR ATTENTION</span><h2>{kind === "feedback" ? "How was your experience?" : "Send us a note."}</h2></div><span className="contact-envelope" aria-hidden="true"><Mail size={25} strokeWidth={1} /></span></div>
           <p className="contact-form-subtitle">Start with a topic, then tell us a little more.</p>
           {error && <div className="contact-send-error" role="alert">{error}</div>}
           <fieldset disabled={busy} className="contact-fields">
             <legend className="sr-only">Your contact information and message</legend>
-            <div className="contact-topic-group"><span id="topic-label">I would like to talk about</span><div role="group" aria-labelledby="topic-label">{topics.map(topic => <button type="button" key={topic} aria-pressed={form.subject === topic} className={form.subject === topic ? "selected" : ""} onClick={() => setForm({ ...form, subject: topic })}>{topic}{form.subject === topic && <Check size={13} />}</button>)}</div></div>
+            <div className="contact-kind-switch" role="group" aria-label="Message type">{[['message','Ask a question'],['feedback','Rating & feedback']].map(([value,label])=><button key={value} type="button" aria-pressed={kind===value} onClick={()=>{setKind(value);setForm({...form,subject:value==='feedback'?'Customer feedback':''});setError('');}}>{label}</button>)}</div>
+            {kind==='feedback'&&<fieldset className="contact-rating"><legend>Your rating *</legend><div>{[1,2,3,4,5].map(n=><label key={n}><input type="radio" name="rating" value={n} checked={rating===n} onChange={()=>setRating(n)} required/><Star aria-hidden="true" size={27} fill={n<=rating?'currentColor':'none'}/><span className="sr-only">{n} {n===1?'star':'stars'}</span></label>)}</div><p>{rating ? rating+' out of 5 — thank you for your honest feedback.' : 'Choose a star rating for your experience.'}</p></fieldset>}
+            <div className="contact-topic-group" hidden={kind==='feedback'}><span id="topic-label">I would like to talk about</span><div role="group" aria-labelledby="topic-label">{topics.map(topic => <button type="button" key={topic} aria-pressed={form.subject === topic} className={form.subject === topic ? "selected" : ""} onClick={() => setForm({ ...form, subject: topic })}>{topic}{form.subject === topic && <Check size={13} />}</button>)}</div></div>
             <div className="contact-field-pair">
               <label htmlFor="contact-name">Your name <span>*</span><input ref={nameRef} id="contact-name" name="name" required autoComplete="name" maxLength={100} placeholder="How should we address you?" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
               <label htmlFor="contact-email">Email address <span>*</span><input id="contact-email" name="email" required autoComplete="email" type="email" maxLength={254} placeholder="you@example.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></label>
             </div>
             <label htmlFor="contact-subject">Subject <span>*</span><input id="contact-subject" name="subject" required maxLength={150} placeholder="A few words about your enquiry" value={form.subject} onChange={e => setForm({ ...form, subject: e.target.value })} /></label>
-            <label htmlFor="contact-message">Your message <span>*</span><textarea id="contact-message" name="message" required rows={5} maxLength={4000} placeholder="Tell us a little more. For order enquiries, please include your order number." aria-describedby="message-count" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} /><small id="message-count">{form.message.length.toLocaleString()} / 4,000</small></label>
-            <div className="contact-send-row"><p><LockKeyhole size={14} /> Your details are used to respond to this enquiry.</p><button className="contact-submit" type="submit">{busy ? <>Sending your note <LoaderCircle size={17} className="contact-spinner" /></> : <>Send message <ArrowUpRight size={18} /></>}</button></div>
+            <label htmlFor="contact-message">{kind === "feedback" ? "Your feedback" : "Your message"} <span>*</span><textarea id="contact-message" name="message" required rows={5} maxLength={4000} placeholder="Tell us a little more. For order enquiries, please include your order number." aria-describedby="message-count" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} /><small id="message-count">{form.message.length.toLocaleString()} / 4,000</small></label>
+            <div className="contact-send-row"><p><LockKeyhole size={14} /> Your details are used to respond to this enquiry.</p><button className="contact-submit" type="submit">{busy ? <>Sending your note <LoaderCircle size={17} className="contact-spinner" /></> : <>{kind === "feedback" ? "Send feedback" : "Send message"} <ArrowUpRight size={18} /></>}</button></div>
           </fieldset>
         </form>}
       </div>

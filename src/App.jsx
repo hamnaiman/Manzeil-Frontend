@@ -1,3 +1,4 @@
+import Reviews from './pages/admin/Reviews.jsx';
 import Blog, { BlogArticle } from './pages/Blog.jsx';
 import BlogPosts from './pages/admin/BlogPosts.jsx';
 import Collection from "./pages/Collection.jsx";
@@ -68,7 +69,7 @@ function App() {
             }
           >
             <Route index element={<Overview />} />
-            <Route path="products" element={<AddProduct />} />
+            <Route path="products" element={<AddProduct />} /><Route path="reviews" element={<Reviews />} />
             <Route path="orders" element={<Orders />} />
             <Route path="reports" element={<Reports />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Stories />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
           </Route>

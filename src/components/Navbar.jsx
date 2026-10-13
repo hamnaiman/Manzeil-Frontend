@@ -50,7 +50,7 @@ export default function Navbar() {
       <nav id="store-navigation" aria-label="Main navigation" className={"luxe-links" + (open ? " is-open" : "")}>
         <div className="luxe-mobile-intro"><span>FIND YOUR SIGNATURE</span><p>A little luxury. Entirely yours.</p></div>
         {items.map(([to, label], i) => <Link key={to} to={to} aria-current={active(to) ? "page" : undefined} style={{ "--link-order": i }}><span>{label}</span><ArrowUpRight size={15} /></Link>)}
-        <div className="luxe-mobile-footer">MANZEIL <span>JO TUM CHAHO</span></div>
+        <div className="luxe-mobile-footer"><span>MANZEIL</span><Link className="luxe-mobile-search" to="/products?search=1"><Search size={16} /> Search fragrances</Link></div>
       </nav>
       <div className="luxe-actions"><Link className="luxe-shop-now" to="/products">Shop now <ArrowUpRight size={14} /></Link>
         <Link className="luxe-search" to="/products?search=1" aria-label="Search fragrances"><Search size={17} strokeWidth={1.6} /></Link>

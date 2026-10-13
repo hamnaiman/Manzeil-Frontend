@@ -23,3 +23,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 import "./styles/navbar.css";
 import "./styles/responsive.css";
+
+import "./styles/mobile-refinement.css";

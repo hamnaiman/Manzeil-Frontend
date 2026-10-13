@@ -21,7 +21,7 @@ export default function ProductCard({ product, media = {} }) {
       <Link to={"/product/" + product._id} aria-label={"View " + product.name}>
         {image && !failed ? <>
           <img className="campaign-photo" src={image} alt={product.name} loading="lazy" onError={() => setFailed(true)} />
-          {campaign && <img className="campaign-bottle" src={media[campaign.key+"Bottle"] || campaign.image} alt="" aria-hidden="true" loading="lazy" />}
+
         </> : <div className="product-fallback"><Flower2 size={52} /><span>MANZEIL</span></div>}
       </Link>
       {product.discountPrice > 0 && <span className="product-tag">Special price</span>}

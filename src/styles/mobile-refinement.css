@@ -1,0 +1,100 @@
+/* Mobile compositions: deliberate image regions, then readable copy. */
+@media(max-width:700px){
+ .scent-home .scent-section{padding:32px 16px}
+ .scent-home .section-heading{margin-bottom:20px}
+ .scent-home .section-heading h2,.journal-section-heading h2{font-size:30px;line-height:1.15;letter-spacing:-.7px}
+ .scent-home .bottle-hero{width:calc(100% - 24px);margin:12px auto 0;padding:18px 20px 12px;border-radius:18px}
+ .bottle-hero-layout{display:flex;flex-direction:column;gap:0;min-height:0;padding-bottom:0}
+ .bottle-hero-copy{order:1;width:100%;min-height:0;text-align:center;padding:10px 0 0}
+ .scent-home .bottle-hero-copy h2{font-size:36px!important;line-height:1.08;margin:10px 0 12px}
+ .bottle-hero-copy p{font-size:12px;line-height:1.75;max-width:310px;margin-inline:auto}
+ .bottle-shop{min-height:44px;margin-top:15px;padding:11px 22px}
+ .bottle-stage{order:2;width:100%;height:240px;flex:none;margin-top:8px}
+ .bottle-image-area{width:100%;height:218px;margin:0}
+ .bottle-stage-logo{width:48px;right:8px;top:12px}
+ .bottle-caption{font-size:11px;bottom:0}
+ .bottle-decor-lower{bottom:17px;width:82px;height:82px}
+ .bottle-name-backdrop span{font-size:46px}
+ .bottle-hero-info{order:3;position:static;width:100%;text-align:center;padding:12px 0 10px;max-width:none}
+ .bottle-selector>span{display:none}
+ .bottle-selector>div{justify-content:center;gap:9px;margin:0}
+ .bottle-selector button{width:68px;min-height:56px;flex-direction:row;padding:5px 8px}
+ .bottle-selector img{width:28px;height:42px}
+ .bottle-selector button>span{display:none}
+ .bottle-hero-bottom{padding-top:8px;gap:10px;flex-wrap:nowrap}
+ .bottle-hero-bottom>span:first-child{font-size:6px;letter-spacing:1.4px}
+ .bottle-hero-bottom>button{width:40px;min-height:40px}
+ /* Full subject height from the right half of each panoramic collection image. */
+ .category-hero:not(.collection-all){--mobile-campaign:#eedfcb;margin:12px 12px 0;padding:0;min-height:0;border-radius:18px;background:var(--mobile-campaign);display:flex;flex-direction:column}
+ .category-hero.category-dark:not(.collection-all){--mobile-campaign:#201710}
+ .category-hero:not(.collection-all) .category-hero-photo{position:relative;inset:auto;width:100%;height:clamp(205px,61vw,285px);aspect-ratio:auto;object-fit:cover;object-position:right top;padding:0;flex:none}
+ .category-hero:not(.collection-all) .category-hero-shade{position:absolute;top:0;bottom:auto;width:100%;height:clamp(205px,61vw,285px);background:linear-gradient(0deg,var(--mobile-campaign),transparent 25%);pointer-events:none}
+ .category-hero:not(.collection-all) .category-hero-copy{width:100%;padding:4px 23px 25px;background:transparent;text-align:left}
+ .category-hero:not(.collection-all) .category-breadcrumb{font-size:10px;margin-bottom:17px;gap:8px}
+ .category-hero:not(.collection-all) h1{font-size:32px;line-height:1.12;max-width:340px;letter-spacing:-.8px;margin:12px 0}
+ .category-hero:not(.collection-all) .category-hero-copy>p{font-size:13px;line-height:1.8;max-width:380px}
+ .category-hero:not(.collection-all) .category-hero-cta{min-height:44px;margin-top:17px;font-size:11px}
+ .category-eyebrow{font-size:8px;letter-spacing:1.6px}
+ .collection-all .category-hero-copy{width:100%;padding:23px 22px 230px}
+ .collection-all h1{font-size:32px;line-height:1.1}
+ .collection-all .category-breadcrumb{margin-bottom:16px}
+ .shop-side-bottle{top:auto;bottom:12px;height:205px;width:45%}
+ .shop-bottle-left{left:3%}.shop-bottle-right{right:3%}
+ .collection-all .shop-botanical{height:170px;width:42%;bottom:-14px}
+ /* A featured story plus two compact magazine cards. */
+ .journal-section-heading{display:block;margin-bottom:23px}
+ .journal-section-heading>div+div{margin-top:14px}
+ .journal-section-heading p{font-size:12px;line-height:1.75;margin-bottom:8px}
+ .journal-section-heading p br{display:none}
+ .journal-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+ .journal-feature-grid>div:first-child{grid-column:1/-1;grid-row:auto}
+ .journal-card:not(.journal-card-featured) .journal-card-link{display:flex;flex-direction:column;height:100%}
+ .journal-card:not(.journal-card-featured) .journal-card-image{height:auto;aspect-ratio:1;min-height:0;width:100%;flex:none}
+ .journal-card:not(.journal-card-featured) .journal-card-image img{position:absolute;inset:0;width:100%;height:100%;padding:0;object-fit:contain;mask-image:none;-webkit-mask-image:none;filter:none}
+ .journal-card:not(.journal-card-featured) .journal-card-image::after{display:none}
+ .journal-card:not(.journal-card-featured) .journal-card-copy{padding:15px 12px;align-self:stretch;flex:1;display:flex;flex-direction:column}
+ .journal-card:not(.journal-card-featured) h3{font-size:21px;line-height:1.15;letter-spacing:-.3px;margin:10px 0}
+ .journal-card:not(.journal-card-featured) .journal-meta{font-size:8px;line-height:1.6;letter-spacing:.6px;gap:5px}
+ .journal-card:not(.journal-card-featured) .journal-card-copy>p{font-size:11px;line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+ .journal-card:not(.journal-card-featured) .journal-notes{gap:4px;margin:7px 0}
+ .journal-card:not(.journal-card-featured) .journal-notes span{font-size:8px;padding:4px 6px}
+ .journal-card:not(.journal-card-featured) .journal-read{font-size:10px;min-height:40px;margin-top:auto;align-self:start;gap:5px}
+ .journal-wide-banner .journal-card-link{display:flex;flex-direction:column;padding:0;min-height:0;background:#f2e8d8}
+ .journal-wide-banner .journal-card-image{position:relative;inset:auto;width:100%;height:clamp(210px,59vw,280px);min-height:0;flex:none}
+ .journal-wide-banner .journal-card-image img{height:100%;width:100%;object-fit:cover;object-position:left center}
+ .journal-wide-banner .journal-card-copy{width:100%;margin:0;padding:8px 23px 23px;flex:none}
+ .journal-wide-banner h3{font-size:29px;line-height:1.12;margin:12px 0}
+ .journal-wide-banner .journal-meta{font-size:8px;gap:12px}
+ .journal-wide-banner .journal-card-copy>p{font-size:12px;line-height:1.8}
+ .journal-wide-banner .journal-read{min-height:42px}
+ .journal-feature-label{font-size:7px;letter-spacing:1px;top:13px;left:13px}
+ /* Match the same proportions when a reader opens a story. */
+ .journal-article-intro.journal-article-panorama{display:flex;flex-direction:column;padding:0}
+ .journal-article-panorama .journal-hero-art{position:relative;inset:auto;order:0;width:100%;height:clamp(210px,59vw,280px);min-height:0}
+ .journal-article-intro.journal-article-panorama .journal-article-header{order:1;padding:8px 23px 25px;width:100%;margin:0;min-height:0}
+ .journal-article-panorama .journal-article-header h1{font-size:30px;line-height:1.15}
+ .journal-article-panorama .journal-article-header>p{font-size:13px;line-height:1.8}
+ .journal-masthead{padding:26px 14px 32px}.journal-masthead h1{font-size:31px}.journal-masthead h1 em{font-size:clamp(28px,7vw,40px);line-height:1.3}
+ .journal-category-bar{justify-content:flex-start;gap:7px;padding:20px 0}.journal-category-bar button{font-size:10px;padding:9px 12px;min-height:40px}
+ .collection-filters button{min-height:40px}.collection-filters{gap:5px}
+ .scent-home .product-grid{gap:23px 12px}
+ .scent-home .product-meta>span+span{display:none}
+ .scent-home .scent-product h3{font-size:19px;line-height:1.2}
+ .scent-home .product-price{font-size:13px;gap:4px 8px}
+ .scent-home .product-price del{font-size:11px;margin:0}
+ .editorial-grid{gap:18px}
+ .editorial-card{min-height:0}
+}
+@media(max-width:540px){
+ /* Keep the logo and useful actions in one compact header row. */
+ .luxe-nav,.is-scrolled .luxe-nav{display:flex;flex-wrap:nowrap;justify-content:space-between;gap:8px;padding:8px 12px;min-height:76px}
+ .luxe-brand img{width:112px;height:38px}.luxe-brand>span{font-size:6px;letter-spacing:1.5px}
+ .luxe-actions{width:auto;gap:3px;justify-content:flex-end}
+ .luxe-shop-now{padding:8px 10px;min-height:40px;font-size:10px}
+ .luxe-actions .luxe-search{display:none}
+ .luxe-menu{width:40px;min-width:40px;height:40px;min-height:40px}
+ .luxe-links.is-open{max-height:calc(100dvh - 110px)}
+ .luxe-header .luxe-mobile-footer{display:flex;justify-content:space-between;align-items:center;gap:15px}
+ .luxe-mobile-search{display:flex;align-items:center;gap:8px;font-size:12px;min-height:44px}
+}
+@media(max-width:359px){.scent-home .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.scent-home .product-enlarge{width:34px;height:34px;padding:0}.scent-home .product-enlarge span{display:none}.scent-home .scent-product h3{font-size:17px}.journal-feature-grid{gap:10px}.journal-card:not(.journal-card-featured) h3{font-size:19px}.luxe-brand img{width:100px}.luxe-shop-now{padding-inline:8px}.bottle-hero-bottom>span:first-child{letter-spacing:1px}}
