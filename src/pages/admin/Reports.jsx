@@ -88,7 +88,7 @@ const Reports = () => {
       {error && <p className="text-red-600 mb-4 print:hidden">{error}</p>}
       {loading && <p className="text-gray-500 print:hidden">Loading...</p>}
 
-      <div className="bg-white border border-gray-100 rounded-lg overflow-x-auto print:border-none">
+      <div className="bg-white border border-gray-100 rounded-lg overflow-x-auto print:border-none" role="region" aria-label="Reports table, scroll horizontally to view all columns" tabIndex={0}>
         <table className="w-full text-sm min-w-[620px]">
           <thead className="bg-gray-50 text-left text-gray-500 print:bg-white">
             <tr>

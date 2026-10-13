@@ -6,7 +6,7 @@ import api from "../api/axios.js";
 import ProductCard from "../components/ProductCard.jsx";
 import Footer from "../components/Footer.jsx";
 import Reveal from "../components/Reveal.jsx";
-import {collections,collectionPath} from "../data/collections.js";
+import {collections} from "../data/collections.js";
 import "../styles/collections.css";
 
 export default function Collection() {
@@ -25,6 +25,7 @@ function CollectionView({slug}) {
  const page=Number.isInteger(rawPage)&&rawPage>0?rawPage:1;
  const query=params.get("q")||"",sort=params.get("sort")||"featured";
  const minimum=params.get("minPrice")||"",maximum=params.get("maxPrice")||"",stock=params.get("inStock")==="true";
+ const selectedCategory=Object.prototype.hasOwnProperty.call(collections,params.get("category"))?params.get("category"):slug;
  const queryKey=params.toString();
  const hero=content?.collectionHeroes?.[slug]||{};
  const heroImage=content?.media?.[slug+"Hero"]||defaults.image;
@@ -36,7 +37,7 @@ function CollectionView({slug}) {
  useEffect(()=>{
   const controller=new AbortController();
   setLoading(true);setError("");
-  api.get("/products",{signal:controller.signal,params:{category:defaults.category,page,limit:12,search:query,sort,minPrice:minimum,maxPrice:maximum,inStock:stock?"true":undefined}})
+  api.get("/products",{signal:controller.signal,params:{category:collections[selectedCategory].category,page,limit:12,search:query,sort,minPrice:minimum,maxPrice:maximum,inStock:stock?"true":undefined}})
    .then(({data})=>{
     if(!Array.isArray(data.data))throw new Error("Invalid catalog");
     setResult(data);
@@ -53,10 +54,12 @@ function CollectionView({slug}) {
   if((min&&(!Number.isFinite(Number(min))||Number(min)<0))||(max&&(!Number.isFinite(Number(max))||Number(max)<0))||(min&&max&&Number(min)>Number(max))){setFilterError("Enter a valid price range. Minimum must not exceed maximum.");return;}
   setFilterError("");
   const next=new URLSearchParams();
+  if(params.has("category"))next.set("category",selectedCategory);
   for(const key of ["q","minPrice","maxPrice","sort"]){const value=String(form.get(key)||"").trim();if(value)next.set(key,value);}
   if(form.get("inStock"))next.set("inStock","true");
   setParams(next,{preventScrollReset:true});
  }
+ function selectCategory(key){const next=new URLSearchParams(params);next.set("category",key);next.delete("page");setFilterError("");setParams(next,{preventScrollReset:true});}
  function goPage(value){const next=new URLSearchParams(params);next.set("page",String(value));setParams(next,{preventScrollReset:true});listing.current?.scrollIntoView({behavior:reduced?"instant":"smooth"});}
  return <main id="main-content" className="scent-home collection-page">
   <section className={"category-hero category-"+defaults.theme+" collection-"+slug}>
@@ -76,8 +79,8 @@ function CollectionView({slug}) {
    <span className="category-hero-note">JO TUM CHAHO</span>
   </section>
   <section ref={listing} id="collection-products" className="scent-section">
-   <div className="category-list-heading"><div><span className="section-pill">THE COLLECTION</span><h2>{defaults.label}</h2></div><span role="status">{loading?"Discovering your fragrances…":result.pagination?.total+" fragrances"}</span></div>
-   <nav className="category-tabs" aria-label="Fragrance collections">{Object.entries(collections).map(([key,item])=><Link key={key} aria-current={slug===key?"page":undefined} to={collectionPath(key)}>{item.label}</Link>)}</nav>
+   <div className="category-list-heading"><div><span className="section-pill">THE COLLECTION</span><h2>{collections[selectedCategory].label}</h2></div><span role="status">{loading?"Discovering your fragrances…":result.pagination?.total+" fragrances"}</span></div>
+   <div className="category-tabs" role="group" aria-label="Filter fragrances by category">{Object.entries(collections).map(([key,item])=><button type="button" key={key} aria-pressed={selectedCategory===key} onClick={()=>selectCategory(key)}>{item.label}</button>)}</div>
    <form className="catalog-filters" key={queryKey} onSubmit={apply}>
     <label className="catalog-search"><span>Search fragrances</span><div><Search size={17}/><input ref={searchInput} name="q" type="search" defaultValue={query} placeholder="Name or signature…" maxLength={100}/></div></label>
     <label><span>Min price · Rs.</span><input name="minPrice" type="number" min="0" step="any" defaultValue={minimum} placeholder="0"/></label>

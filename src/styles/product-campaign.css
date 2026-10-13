@@ -18,3 +18,8 @@
 .perfume-preview-content a { text-decoration:underline; }
 .product-enlarge:focus-visible,.perfume-preview button:focus-visible,.perfume-preview a:focus-visible { outline:2px solid #a17b48; outline-offset:3px; }
 @media(prefers-reduced-motion:reduce) { .scent-home .campaign-product .product-image img { transition:none; } }
+
+/* Uploaded product covers fill every card consistently, including mobile. */
+.scent-home .scent-product .product-image{border:0;padding:0;border-radius:14px;overflow:hidden}
+.scent-home .scent-product .product-image>a{display:block;width:100%;height:100%;padding:0}
+.scent-home .scent-product .product-image img.campaign-photo{display:block;width:100%;height:100%;max-width:none;margin:0;padding:0;object-fit:cover;object-position:center}

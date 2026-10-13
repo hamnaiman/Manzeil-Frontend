@@ -107,3 +107,8 @@
  .shop-bottle-pair::before { left:7%; }
  .shop-bottle-pair::after { right:7%; }
 }
+.category-tabs button{padding:11px 18px;border:1px solid #e0d5c5;border-radius:25px;font-size:12px;transition:background .25s,color .25s;background:transparent;color:inherit}
+.category-tabs button[aria-pressed=true],.category-tabs button:hover{background:#30281f;color:#fff8ec;border-color:#30281f}
+.category-tabs button:focus-visible{outline:2px solid #9a7853;outline-offset:3px}
+@media(max-width:540px){.category-tabs button{font-size:11px;padding:9px 13px}}
+@media(prefers-reduced-motion:reduce){.category-tabs button{transition:none}}
