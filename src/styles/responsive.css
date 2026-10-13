@@ -130,3 +130,13 @@
  .admin-brand>span{display:none}
 }
 @media print{.admin-main table{min-width:0}.admin-sidebar{display:none}.admin-main{padding:0}}
+
+/* Square product artwork keeps its full composition without side gutters. */
+.fragrance-page .fragrance-gallery{width:100%;max-width:350px;justify-self:center}
+.fragrance-page .fragrance-photo{width:100%;height:auto;aspect-ratio:1;max-height:none;background:transparent;border-radius:12px}
+.fragrance-page .fragrance-photo>img{object-fit:contain}
+.fragrance-page .fragrance-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:32px}
+@media(max-width:760px){.fragrance-page .fragrance-layout{grid-template-columns:minmax(0,1fr);gap:22px}.fragrance-page .fragrance-gallery{max-width:320px}}
+/* A more compact homepage grid, keeping every cover square. */
+@media(min-width:1101px){.homepage .product-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:26px 18px}.homepage .scent-product h3{font-size:20px}.homepage .product-meta{font-size:8px;gap:5px;flex-wrap:wrap}.homepage .product-price{font-size:13px}}
+@media(min-width:761px) and (max-width:1100px){.homepage .product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 16px}}
