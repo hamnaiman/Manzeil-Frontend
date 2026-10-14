@@ -3,7 +3,7 @@ import Blog, { BlogArticle } from './pages/Blog.jsx';
 import BlogPosts from './pages/admin/BlogPosts.jsx';
 import Collection from "./pages/Collection.jsx";
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -21,7 +21,7 @@ import Orders from "./pages/admin/Orders.jsx";
 import Reports from "./pages/admin/Reports.jsx";
 
 import Contact from "./pages/Contact.jsx";
-import Stories from "./pages/admin/Stories.jsx";
+
 import WebsiteSettings from "./pages/admin/WebsiteSettings.jsx";
 import ContactMessages from "./pages/admin/ContactMessages.jsx";
 
@@ -71,7 +71,7 @@ function App() {
             <Route index element={<Overview />} />
             <Route path="products" element={<AddProduct />} /><Route path="reviews" element={<Reviews />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="reports" element={<Reports />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Stories />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
+            <Route path="reports" element={<Reports />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Navigate to="/admin/blog" replace />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
           </Route>
         </Routes>
       )}

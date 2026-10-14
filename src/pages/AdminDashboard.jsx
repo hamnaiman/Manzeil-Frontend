@@ -8,7 +8,6 @@ const links = [
   ["/admin/products", "Products", Package],
   ["/admin/reviews", "Customer Reviews", Mail],
   ["/admin/blog", "Blog", Clapperboard],
-  ["/admin/stories", "Video library", Clapperboard],
   ["/admin/website", "Website Settings", Settings],
   ["/admin/messages", "Contact Messages", Mail],
   ["/admin/orders", "Orders", ShoppingBag],
