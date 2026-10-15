@@ -14,6 +14,12 @@ export default function Collection() {
  if(!collections[slug]) return <Navigate to="/products" replace/>;
  return <CollectionView key={slug} slug={slug}/>;
 }
+const collectionIntroductions={
+ 'for-her':{first:'Soft notes.',accent:'Unforgettable her.',text:'Discover a fragrance as individual as she is.'},
+ 'for-him':{first:'Quiet confidence.',accent:'Lasting presence.',text:'Find a signature that speaks before you do.'},
+ unisex:{first:'Beyond labels.',accent:'Entirely you.',text:'Beautiful fragrances, made to be shared and worn your way.'},
+ all:{first:'Every mood.',accent:'A new signature.',text:'Explore the collection and find the scent you’ll make your own.'},
+};
 function CollectionView({slug}) {
  const defaults=collections[slug], reduced=useReducedMotion();
  const [params,setParams]=useSearchParams();
@@ -25,10 +31,12 @@ function CollectionView({slug}) {
  const page=Number.isInteger(rawPage)&&rawPage>0?rawPage:1;
  const query=params.get("q")||"",sort=params.get("sort")||"featured";
  const minimum=params.get("minPrice")||"",maximum=params.get("maxPrice")||"",stock=params.get("inStock")==="true";
- const selectedCategory=Object.prototype.hasOwnProperty.call(collections,params.get("category"))?params.get("category"):slug;
+ const selectedCategory=slug!=="all"?slug:(Object.prototype.hasOwnProperty.call(collections,params.get("category"))?params.get("category"):slug);
  const queryKey=params.toString();
+ const introduction=collectionIntroductions[selectedCategory];
  const hero=content?.collectionHeroes?.[slug]||{};
  const heroImage=content?.media?.[slug+"Hero"]||defaults.image;
+
  useEffect(()=>{
   const controller=new AbortController();
   api.get("/content",{signal:controller.signal}).then(({data})=>{setContent(data.data);setContentError(false);}).catch(()=>{if(!controller.signal.aborted)setContentError(true);});
@@ -63,12 +71,12 @@ function CollectionView({slug}) {
  function goPage(value){const next=new URLSearchParams(params);next.set("page",String(value));setParams(next,{preventScrollReset:true});listing.current?.scrollIntoView({behavior:reduced?"instant":"smooth"});}
  return <main id="main-content" className="scent-home collection-page">
   <section className={"category-hero category-"+defaults.theme+" collection-"+slug}>
-   {slug==="all" ? <div className="shop-bottle-pair">
+   {slug==="all"?<div className="shop-bottle-pair">
     <div className="shop-botanical shop-botanical-citrus" aria-hidden="true"><img src={content?.media?.obsessionDecor || "/images/hero/obsession-fruits.png"} alt="" /></div>
     <div className="shop-botanical shop-botanical-floral" aria-hidden="true"><img src={content?.media?.sereneDecor || "/images/hero/serene-flowers.png"} alt="" /></div>
     <motion.img className="shop-side-bottle shop-bottle-left" src={content?.media?.obsessionBottle || "/images/hero/obsession-cutout.png"} alt="Manzeil Obsession" initial={reduced?false:{opacity:0,x:-25}} animate={{opacity:1,x:0}} transition={{duration:1}} />
     <motion.img className="shop-side-bottle shop-bottle-right" src={content?.media?.sereneBottle || "/images/hero/serene-matched.png"} alt="Manzeil Serene" initial={reduced?false:{opacity:0,x:25}} animate={{opacity:1,x:0}} transition={{duration:1}} />
-   </div> : <motion.img className="category-hero-photo" src={heroImage} alt={slug==="for-her"?"Woman applying perfume":slug==="for-him"?"Man applying perfume":slug==="unisex"?"Husband and wife sharing Manzeil Obsession perfume":"Fragrance collection"} initial={reduced?false:{opacity:0}} animate={{opacity:1}} transition={{duration:1.8,ease:"easeOut"}} fetchPriority="high"/>}
+   </div>:<motion.img className="category-hero-photo" src={heroImage} alt={slug==="for-her"?"Woman applying Manzeil perfume":slug==="for-him"?"Man applying Manzeil perfume":"Couple sharing Manzeil perfume"} initial={reduced?false:{opacity:0}} animate={{opacity:1}} transition={{duration:1.2,ease:"easeOut"}} fetchPriority="high"/>}
    <div className="category-hero-shade"/>
    <motion.div className="category-hero-copy" initial={reduced?false:{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.7,delay:.1}}>
     <nav className="category-breadcrumb" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><span>{defaults.label}</span></nav>
@@ -79,8 +87,8 @@ function CollectionView({slug}) {
    <span className="category-hero-note">JO TUM CHAHO</span>
   </section>
   <section ref={listing} id="collection-products" className="scent-section">
-   <div className="category-list-heading"><div><span className="section-pill">THE COLLECTION</span><h2>{collections[selectedCategory].label}</h2></div><span role="status">{loading?"Discovering your fragrances…":result.pagination?.total+" fragrances"}</span></div>
-   <div className="category-tabs" role="group" aria-label="Filter fragrances by category">{Object.entries(collections).map(([key,item])=><button type="button" key={key} aria-pressed={selectedCategory===key} onClick={()=>selectCategory(key)}>{item.label}</button>)}</div>
+   <header className="category-list-heading collection-introduction"><span className="section-pill">THE COLLECTION / {collections[selectedCategory].label.toUpperCase()}</span><h2>{introduction.first} <em>{introduction.accent}</em></h2><p>{introduction.text}</p><span className="collection-result-count" role="status">{loading?"Discovering your fragrances…":result.pagination?.total+" fragrances to explore"}</span></header>
+   {slug==="all"&&<div className="category-tabs" role="group" aria-label="Filter fragrances by category">{Object.entries(collections).map(([key,item])=><button type="button" key={key} aria-pressed={selectedCategory===key} onClick={()=>selectCategory(key)}>{item.label}</button>)}</div>}
    <form className="catalog-filters" key={queryKey} onSubmit={apply}>
     <label className="catalog-search"><span>Search fragrances</span><div><Search size={17}/><input ref={searchInput} name="q" type="search" defaultValue={query} placeholder="Name or signature…" maxLength={100}/></div></label>
     <label><span>Min price · Rs.</span><input name="minPrice" type="number" min="0" step="any" defaultValue={minimum} placeholder="0"/></label>

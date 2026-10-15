@@ -71,6 +71,7 @@ export default function Home() {
   const filtered = products;
   return <main id="main-content" className="scent-home homepage">
     <h1 className="sr-only">Manzeil — signature fragrances</h1>{<Hero media={content?.media} />}
+    <ScentVisualizer content={content} />
     <section id="collection" className="scent-section collection-section">
       <Reveal className="section-heading"><span className="section-pill">01 / FIND YOUR SIGNATURE</span><h2>Meet your next <em>signature.</em></h2><p>Find the one that feels effortlessly yours.</p></Reveal>
       <div className="collection-toolbar"><div className="collection-filters" aria-label="Filter by category">{[["", "All scents"], ["female", "For her"], ["male", "For him"], ["unisex", "Unisex"]].map(([value, label]) => <button key={value} aria-pressed={category === value} className={category === value ? "active" : ""} onClick={() => { const next = new URLSearchParams(params); value ? next.set("category", value) : next.delete("category"); setPage(1); setParams(next, { preventScrollReset: true }); }}>{label}</button>)}</div><label className="collection-search"><Search size={16} /><input ref={input} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Find your fragrance" aria-label="Search collection" type="search" /></label><label className="collection-sort"><span>Sort by</span><select aria-label="Sort fragrances" value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }}><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></label></div>
@@ -80,7 +81,6 @@ export default function Home() {
     </section>
 
     {contentError && <p className="content-load-error" role="status">Website settings are temporarily unavailable. <button onClick={() => setContentVersion(v => v + 1)}>Retry</button></p>}
-    <ScentVisualizer content={content} />
     <BlogSection />
     <section className="scent-section signature-section">
       <Reveal className="section-heading"><span className="section-pill">03 / THE CURATED EDITS</span><h2>Different moods.<br /><em>One unmistakable you.</em></h2></Reveal>

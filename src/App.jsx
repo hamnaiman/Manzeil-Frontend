@@ -30,6 +30,12 @@ function StorefrontLayout({ children }) {
   useEffect(() => {
     if (!location.hash) window.scrollTo({ top: 0, behavior: "instant" });
   }, [location.pathname]);
+  useEffect(()=>{
+    const header=document.querySelector('.luxe-header');if(!header)return;
+    const measure=()=>document.documentElement.style.setProperty('--storefront-header-height',Math.ceil(header.getBoundingClientRect().height)+'px');
+    measure();const observer=new ResizeObserver(measure);observer.observe(header);
+    return()=>observer.disconnect();
+  },[]);
   return <div className="storefront-shell"><Navbar /><div key={location.pathname} className="storefront-page route-enter">{children}</div></div>;
 }
 function App() {
