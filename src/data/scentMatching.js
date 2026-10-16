@@ -4,7 +4,8 @@ const aliases={Rose:['rose','roses'],Jasmine:['jasmine'],Citrus:['citrus','lemon
 const has=(text,words)=>words.some(word=>new RegExp('\\b'+word+'\\b','i').test(text));
 export function scentInfo(product,profile={}){
  const text=String(product.name||'')+' '+String(product.description||'');
- const notes=profile.notes?.length?profile.notes:scentNotes.filter(note=>has(text,aliases[note]));
+ const saved=Array.isArray(product.notes)?product.notes:null;
+ const notes=saved?scentNotes.filter(note=>saved.some(value=>has(value,aliases[note]))):profile.notes?.length?profile.notes:scentNotes.filter(note=>has(text,aliases[note]));
  const intensity=profile.intensity||(has(text,['rich','bold','intense','heavy'])?'rich':has(text,['light','airy','delicate'])?'light':has(text,['balanced','moderate'])?'balanced':'');
  const moments=profile.occasions?.length?profile.occasions:occasions.filter(moment=>has(text,{'Everyday':['everyday','daily','casual'],'Work':['work','office','business'],'Evening':['evening','night'],'Special occasion':['special occasion','wedding','celebration']}[moment]));
  return {notes,intensity,occasions:moments};

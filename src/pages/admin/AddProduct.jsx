@@ -12,12 +12,15 @@ import {
   Plus,
   RotateCcw,
 } from "lucide-react";
+import {scentNotes} from '../../data/scentMatching.js';
 import api from "../../api/axios.js";
 
 const emptyForm = {
   name: "",
   brand: "",
   description: "",
+  notes: "",
+  ingredients: "",
   category: "male",
   price: "",
   discountPrice: "",
@@ -91,6 +94,8 @@ const AddProduct = () => {
       name: product.name || "",
       brand: product.brand || "",
       description: product.description || "",
+      notes: (product.notes || []).join(", "),
+      ingredients: product.ingredients || "",
       category: product.category || "male",
       price: product.price ?? "",
       discountPrice: product.discountPrice ?? "",
@@ -213,6 +218,8 @@ const AddProduct = () => {
             rows={3}
             className={inputClass}
           />
+          <div className="admin-product-notes"><label htmlFor="product-fragrance-notes">Fragrance notes <span>Optional · choose tags or type comma-separated notes</span></label><input id="product-fragrance-notes" name="notes" maxLength={600} placeholder="Rose, Jasmine, Musk" value={form.notes} onChange={handleChange} className={inputClass}/><div role="group" aria-label="Quick fragrance notes">{scentNotes.map(note=>{const selected=form.notes.split(',').map(n=>n.trim().toLowerCase()).includes(note.toLowerCase());return <button type="button" key={note} aria-pressed={selected} onClick={()=>{const current=form.notes.split(',').map(n=>n.trim()).filter(Boolean);setForm({...form,notes:(selected?current.filter(n=>n.toLowerCase()!==note.toLowerCase()):[...current,note]).join(', ')});}}>{selected?'✓ ': '+ '}{note}</button>})}</div><p>Saved here once. These notes also power the homepage Scent Finder.</p></div>
+          <label className="admin-product-ingredients">Ingredients <span>Optional · use the label or supplier’s confirmed list</span><textarea name="ingredients" rows={3} maxLength={2000} value={form.ingredients} onChange={handleChange} placeholder="Enter ingredients, if available" className={inputClass}/></label>
 
           <select
             name="category"
