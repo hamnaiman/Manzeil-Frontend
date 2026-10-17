@@ -29,3 +29,5 @@ import "./styles/mobile-refinement.css";
 import "./styles/shopping-refinement.css";
 
 import "./styles/scent-studio.css";
+
+import "./styles/mobile-polish.css";
