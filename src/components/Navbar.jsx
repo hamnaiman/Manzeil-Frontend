@@ -1,3 +1,4 @@
+import StoreImage from './StoreImage.jsx';
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingBag, Search, ArrowUpRight, Sparkles } from "lucide-react";
@@ -46,7 +47,7 @@ export default function Navbar() {
       <button className="luxe-ticker-control" aria-label={tickerPaused ? "Resume announcements" : "Pause announcements"} onClick={() => setTickerPaused(value => !value)}>{tickerPaused ? "▶" : "Ⅱ"}</button>
     </div>
     <div className="luxe-nav">
-      <Link className="luxe-brand" to="/" aria-label="Manzeil home"><span className="luxe-logo-crop"><img src={logo} alt="Manzeil" /></span></Link>
+      <Link className="luxe-brand" to="/" aria-label="Manzeil home"><span className="luxe-logo-crop"><StoreImage src={logo} alt="Manzeil" /></span></Link>
       <nav id="store-navigation" aria-label="Main navigation" className={"luxe-links" + (open ? " is-open" : "")}>
         <div className="luxe-mobile-intro"><span>FIND YOUR SIGNATURE</span><p>A little luxury. Entirely yours.</p></div>
         {items.map(([to, label], i) => <Link key={to} to={to} aria-current={active(to) ? "page" : undefined} style={{ "--link-order": i }}><span>{label}</span><ArrowUpRight size={15} /></Link>)}

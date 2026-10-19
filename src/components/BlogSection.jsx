@@ -1,3 +1,4 @@
+import StoreImage from './StoreImage.jsx';
 import React,{useEffect,useState} from 'react';
 import {Link} from 'react-router-dom';
 import {ArrowUpRight} from 'lucide-react';
@@ -14,11 +15,11 @@ export function useBlogPosts(){
 export function BannerScene({bottle}){
  const [media,setMedia]=useState(null);
  useEffect(()=>{const controller=new AbortController();api.get('/content',{signal:controller.signal}).then(({data})=>setMedia(data.data?.media)).catch(()=>{});return()=>controller.abort();},[]);
- return <div className="journal-scene" aria-label={bottle.name+' fragrance composition'} role="img"><span className="journal-scene-light"/><span className="journal-scene-floor"/><span className="journal-scene-shadow"/><img className="journal-scene-foreground" src={media?.[bottle.key+'Decor']||bottle.decor} alt=""/><img className="journal-scene-decor" src={media?.[bottle.key+'Decor']||bottle.decor} alt=""/><img className="journal-scene-bottle" src={media?.[bottle.key+'Bottle']||bottle.image} alt=""/><span className="journal-scene-caption">{bottle.name} · Eau de Parfum</span></div>;
+ return <div className="journal-scene" aria-label={bottle.name+' fragrance composition'} role="img"><span className="journal-scene-light"/><span className="journal-scene-floor"/><span className="journal-scene-shadow"/><StoreImage className="journal-scene-foreground" src={media?.[bottle.key+'Decor']||bottle.decor} alt=""/><StoreImage className="journal-scene-decor" src={media?.[bottle.key+'Decor']||bottle.decor} alt=""/><StoreImage className="journal-scene-bottle" src={media?.[bottle.key+'Bottle']||bottle.image} alt=""/><span className="journal-scene-caption">{bottle.name} · Eau de Parfum</span></div>;
 }
 export function BlogCard({post,featured=false}){
  const wide=featured ? blogBanner(post) : null;
- return <article className={'journal-card'+(featured?' journal-card-featured':'')+(wide?' journal-wide-banner':'')}><Link to={'/blog/'+post.slug} className="journal-card-link"><div className="journal-card-image"><img src={wide||post.cover?.url} alt={post.title} loading="lazy"/>{featured&&<span className="journal-feature-label">THE FEATURED READ</span>}<span className="journal-image-arrow" aria-hidden="true"><ArrowUpRight size={22}/></span></div><div className="journal-card-copy"><div className="journal-meta"><span>{post.category}</span><span>{post.readingTime} min read</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><div className="journal-notes">{post.notes?.map(note=><span key={note}>{note}</span>)}</div><span className="journal-read">Read story <ArrowUpRight size={15}/></span></div></Link></article>;
+ return <article className={'journal-card'+(featured?' journal-card-featured':'')+(wide?' journal-wide-banner':'')}><Link to={'/blog/'+post.slug} className="journal-card-link"><div className="journal-card-image"><StoreImage src={wide||post.cover?.url} alt={post.title} loading="lazy"/>{featured&&<span className="journal-feature-label">THE FEATURED READ</span>}<span className="journal-image-arrow" aria-hidden="true"><ArrowUpRight size={22}/></span></div><div className="journal-card-copy"><div className="journal-meta"><span>{post.category}</span><span>{post.readingTime} min read</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><div className="journal-notes">{post.notes?.map(note=><span key={note}>{note}</span>)}</div><span className="journal-read">Read story <ArrowUpRight size={15}/></span></div></Link></article>;
 }
 export function BlogStatus({loading,error,retry}){
  if(loading)return <div className="journal-loading" role="status">Opening the pages…</div>;

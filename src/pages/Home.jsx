@@ -1,3 +1,4 @@
+import StoreImage from '../components/StoreImage.jsx';
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
@@ -85,8 +86,8 @@ export default function Home() {
     <section className="scent-section signature-section">
       <Reveal className="section-heading"><span className="section-pill">03 / THE CURATED EDITS</span><h2>Different moods.<br /><em>One unmistakable you.</em></h2></Reveal>
       <div className="editorial-grid">
-        <Reveal className="card-reveal" direction="left"><Link to="/collections/for-her" className="editorial-card editorial-rose"><img src={content?.media?.femaleEdit || "/images/posts/serene.png"} loading="lazy" alt="A delicate perfume composition" /><div><span>SOFT, YET UNFORGETTABLE</span><h3>The feminine edit</h3><p>Floral whispers. Beautiful impressions.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
-        <Reveal className="card-reveal" direction="right" delay={150}><Link to="/collections/for-him" className="editorial-card editorial-dark"><img src={content?.media?.maleEdit || "/images/posts/business-elegance.png"} loading="lazy" alt="Perfume with warm, rich tones" /><div><span>CONFIDENCE, BOTTLED</span><h3>The masculine edit</h3><p>Deep notes. An unmistakable presence.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
+        <Reveal className="card-reveal" direction="left"><Link to="/collections/for-her" className="editorial-card editorial-rose"><StoreImage src={content?.media?.femaleEdit || "/images/posts/serene.png"} loading="lazy" alt="A delicate perfume composition" /><div><span>SOFT, YET UNFORGETTABLE</span><h3>The feminine edit</h3><p>Floral whispers. Beautiful impressions.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
+        <Reveal className="card-reveal" direction="right" delay={150}><Link to="/collections/for-him" className="editorial-card editorial-dark"><StoreImage src={content?.media?.maleEdit || "/images/posts/business-elegance.png"} loading="lazy" alt="Perfume with warm, rich tones" /><div><span>CONFIDENCE, BOTTLED</span><h3>The masculine edit</h3><p>Deep notes. An unmistakable presence.</p></div><ArrowUpRight className="editorial-arrow" /></Link></Reveal>
       </div>
     </section>
 

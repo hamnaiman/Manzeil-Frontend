@@ -1,10 +1,12 @@
+import "../styles/product-campaign.css";
+import StoreImage from './StoreImage.jsx';
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { Plus, Check, Flower2, Expand, X, ArrowUpRight } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
 import { heroBottles } from "../data/heroBottles.js";
-import "../styles/product-campaign.css";
+
 
 export default function ProductCard({ product, media = {} }) {
   const { addToCart, cartItems } = useCart();
@@ -24,7 +26,7 @@ export default function ProductCard({ product, media = {} }) {
     <div className="product-image">
       <Link to={"/product/" + product._id} aria-label={"View " + product.name}>
         {image && !failed ? <>
-          <img className="campaign-photo" src={image} alt={product.name} loading="lazy" onError={() => setFailed(true)} />
+          <StoreImage sizes="(max-width: 760px) 50vw, (max-width: 1100px) 33vw, 25vw" className="campaign-photo" src={image} alt={product.name} loading="lazy" onError={() => setFailed(true)} />
 
         </> : <div className="product-fallback"><Flower2 size={52} /><span>MANZEIL</span></div>}
       </Link>
@@ -39,7 +41,7 @@ export default function ProductCard({ product, media = {} }) {
     {createPortal(<dialog className="perfume-preview" ref={dialog} aria-label={product.name + " image preview"} onClick={event => { if (event.target === event.currentTarget) dialog.current.close(); }}>
       <div className="perfume-preview-content">
         <button autoFocus className="perfume-preview-close" aria-label="Close image preview" onClick={() => dialog.current.close()}><X size={22} /></button>
-        <img src={image} alt={product.name} loading="lazy" />
+        <StoreImage src={image} alt={product.name} loading="lazy" />
         <div><span>{product.name}</span><Link to={"/product/" + product._id} onClick={() => dialog.current.close()}>View fragrance</Link></div>
       </div>
     </dialog>, document.body)}

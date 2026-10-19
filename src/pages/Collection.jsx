@@ -1,3 +1,4 @@
+import StoreImage, { MotionStoreImage } from '../components/StoreImage.jsx';
 import React, {useEffect,useRef,useState} from "react";
 import {Link, Navigate, useParams, useSearchParams} from "react-router-dom";
 import {motion, useReducedMotion} from "framer-motion";
@@ -72,11 +73,11 @@ function CollectionView({slug}) {
  return <main id="main-content" className="scent-home collection-page">
   <section className={"category-hero category-"+defaults.theme+" collection-"+slug}>
    {slug==="all"?<div className="shop-bottle-pair">
-    <div className="shop-botanical shop-botanical-citrus" aria-hidden="true"><img src={content?.media?.obsessionDecor || "/images/hero/obsession-fruits.png"} alt="" /></div>
-    <div className="shop-botanical shop-botanical-floral" aria-hidden="true"><img src={content?.media?.sereneDecor || "/images/hero/serene-flowers.png"} alt="" /></div>
-    <motion.img className="shop-side-bottle shop-bottle-left" src={content?.media?.obsessionBottle || "/images/hero/obsession-cutout.png"} alt="Manzeil Obsession" initial={reduced?false:{opacity:0,x:-25}} animate={{opacity:1,x:0}} transition={{duration:1}} />
-    <motion.img className="shop-side-bottle shop-bottle-right" src={content?.media?.sereneBottle || "/images/hero/serene-matched.png"} alt="Manzeil Serene" initial={reduced?false:{opacity:0,x:25}} animate={{opacity:1,x:0}} transition={{duration:1}} />
-   </div>:<motion.img className="category-hero-photo" src={heroImage} alt={slug==="for-her"?"Woman applying Manzeil perfume":slug==="for-him"?"Man applying Manzeil perfume":"Couple sharing Manzeil perfume"} initial={reduced?false:{opacity:0}} animate={{opacity:1}} transition={{duration:1.2,ease:"easeOut"}} fetchPriority="high"/>}
+    <div className="shop-botanical shop-botanical-citrus" aria-hidden="true"><StoreImage src={content?.media?.obsessionDecor || "/images/hero/obsession-fruits.png"} alt="" /></div>
+    <div className="shop-botanical shop-botanical-floral" aria-hidden="true"><StoreImage src={content?.media?.sereneDecor || "/images/hero/serene-flowers.png"} alt="" /></div>
+    <MotionStoreImage className="shop-side-bottle shop-bottle-left" src={content?.media?.obsessionBottle || "/images/hero/obsession-cutout.png"} alt="Manzeil Obsession" initial={reduced?false:{opacity:0,x:-25}} animate={{opacity:1,x:0}} transition={{duration:1}} />
+    <MotionStoreImage className="shop-side-bottle shop-bottle-right" src={content?.media?.sereneBottle || "/images/hero/serene-matched.png"} alt="Manzeil Serene" initial={reduced?false:{opacity:0,x:25}} animate={{opacity:1,x:0}} transition={{duration:1}} />
+   </div>:<MotionStoreImage className="category-hero-photo" src={heroImage} alt={slug==="for-her"?"Woman applying Manzeil perfume":slug==="for-him"?"Man applying Manzeil perfume":"Couple sharing Manzeil perfume"} initial={reduced?false:{opacity:0}} animate={{opacity:1}} transition={{duration:1.2,ease:"easeOut"}} fetchPriority="high"/>}
    <div className="category-hero-shade"/>
    <motion.div className="category-hero-copy" initial={reduced?false:{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.7,delay:.1}}>
     <nav className="category-breadcrumb" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><span>{defaults.label}</span></nav>

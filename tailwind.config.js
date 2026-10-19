@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        storefront: { paper: "#fbf9f5", ink: "#211e1c", muted: "#756d65", line: "#dfd8cf", sand: "#eee8df", accent: "#9a8064" },
         brand: {
           50: "#ffffff",
           100: "#f2f2f2",

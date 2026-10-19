@@ -1,3 +1,4 @@
+import StoreImage from './StoreImage.jsx';
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -77,7 +78,7 @@ const CartDrawer = () => {
                     className="flex gap-4"
                   >
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-[#F4EFEA] flex-shrink-0">
-                      <img
+                      <StoreImage
                         src={item.image}
                         alt={item.name}
                         className="w-full h-full object-cover"

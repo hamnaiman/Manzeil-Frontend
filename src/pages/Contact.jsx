@@ -11,9 +11,10 @@ const topics = ["Find my fragrance", "My order", "Something else"];
 export default function Contact() {
   const [content, setContent] = useState(null);
   const [params] = useSearchParams();
-  const [kind, setKind] = useState(params.get('feedback') === '1' ? 'feedback' : 'message');
-  const [rating, setRating] = useState(0);
-  const [form, setForm] = useState({...blank, subject: params.get('feedback') === '1' ? 'Customer feedback' : ''});
+  const [kind,setKind]=useState(params.get('feedback')==='1'?'feedback':'message');
+  const [rating,setRating]=useState(0);
+
+  const [form, setForm] = useState({...blank,subject:params.get('feedback')==='1'?'Customer feedback':''});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -41,15 +42,15 @@ export default function Contact() {
       setError("Please complete every field before sending your message.");
       return;
     }
-    if (kind === 'feedback' && !rating) { setError('Please choose a star rating.'); return; }
+    if(kind==='feedback'&&!rating){setError('Please choose a star rating.');return;}
     payload.kind = kind;
-    if (kind === 'feedback') payload.rating = rating;
+    if(kind==='feedback'){payload.rating=rating;if(params.get('product'))payload.product=params.get('product');}
     setBusy(true);
     try {
       const { data } = await api.post("/contact", payload);
       setSuccess(data.message || "Thank you. Your message has been received.");
-      setForm({...blank, subject: kind === "feedback" ? "Customer feedback" : ""});
       setRating(0);
+      setForm({...blank, subject: kind === "feedback" ? "Customer feedback" : ""});
     } catch (err) {
       setError(err.response?.data?.message || "Your message could not be sent. Your draft is still here—please try again.");
     } finally { setBusy(false); }
@@ -91,10 +92,10 @@ export default function Contact() {
           <fieldset disabled={busy} className="contact-fields">
             <legend className="sr-only">Your contact information and message</legend>
             <div className="contact-kind-switch" role="group" aria-label="Message type">{[['message','Ask a question'],['feedback','Rating & feedback']].map(([value,label])=><button key={value} type="button" aria-pressed={kind===value} onClick={()=>{setKind(value);setForm({...form,subject:value==='feedback'?'Customer feedback':''});setError('');}}>{label}</button>)}</div>
-            {kind==='feedback'&&<fieldset className="contact-rating"><legend>Your rating *</legend><div>{[1,2,3,4,5].map(n=><label key={n}><input type="radio" name="rating" value={n} checked={rating===n} onChange={()=>setRating(n)} required/><Star aria-hidden="true" size={27} fill={n<=rating?'currentColor':'none'}/><span className="sr-only">{n} {n===1?'star':'stars'}</span></label>)}</div><p>{rating ? rating+' out of 5 — thank you for your honest feedback.' : 'Choose a star rating for your experience.'}</p></fieldset>}
+            {kind==='feedback'&&<fieldset className="contact-rating"><legend>Your rating *</legend><div>{[1,2,3,4,5].map(n=><label key={n}><input type="radio" name="rating" value={n} checked={rating===n} onChange={()=>setRating(n)} required/><Star aria-hidden="true" size={27} fill={n<=rating?'currentColor':'none'}/><span className="sr-only">{n} stars</span></label>)}</div><p>{rating?rating+' out of 5 — thank you for your honest feedback.':'Choose a star rating for your experience.'}</p></fieldset>}
             <div className="contact-topic-group" hidden={kind==='feedback'}><span id="topic-label">I would like to talk about</span><div role="group" aria-labelledby="topic-label">{topics.map(topic => <button type="button" key={topic} aria-pressed={form.subject === topic} className={form.subject === topic ? "selected" : ""} onClick={() => setForm({ ...form, subject: topic })}>{topic}{form.subject === topic && <Check size={13} />}</button>)}</div></div>
             <div className="contact-field-pair">
-              <label htmlFor="contact-name">Your name <span>*</span><input ref={nameRef} id="contact-name" name="name" required autoComplete="name" maxLength={100} placeholder="How should we address you?" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
+              <label htmlFor="contact-name">Your name <span>*</span><input ref={nameRef} id="contact-name" name="name" required autoComplete="name" maxLength={kind==='feedback'?80:100} placeholder="How should we address you?" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
               <label htmlFor="contact-email">Email address <span>*</span><input id="contact-email" name="email" required autoComplete="email" type="email" maxLength={254} placeholder="you@example.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></label>
             </div>
             <label htmlFor="contact-subject">Subject <span>*</span><input id="contact-subject" name="subject" required maxLength={150} placeholder="A few words about your enquiry" value={form.subject} onChange={e => setForm({ ...form, subject: e.target.value })} /></label>

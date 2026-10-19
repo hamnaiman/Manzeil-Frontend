@@ -1,3 +1,4 @@
+import StoreImage, { MotionStoreImage } from './StoreImage.jsx';
 import React, { useMemo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
@@ -35,7 +36,7 @@ export default function BrandStory({ content }) {
     <section id="our-story" ref={ref} className="story-v2">
       {/* Backdrop: Manzeil logo (blurred, parallax) */}
       <div className="sv2-logo-wrap" aria-hidden="true">
-        <motion.img
+        <MotionStoreImage
           src={logo}
           alt=""
           className="sv2-logo"
@@ -157,7 +158,7 @@ export default function BrandStory({ content }) {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1.4, delay: 0.2, ease }}
           >
-            <motion.img
+            <MotionStoreImage
               src={image}
               alt="Manzeil signature fragrance"
               loading="lazy"
@@ -195,7 +196,7 @@ export default function BrandStory({ content }) {
                 </textPath>
               </text>
             </motion.svg>
-            <img src={logo} alt="Manzeil" className="sv2-seal-logo" />
+            <StoreImage src={logo} alt="Manzeil" className="sv2-seal-logo" />
           </motion.div>
         </motion.div>
       </div>

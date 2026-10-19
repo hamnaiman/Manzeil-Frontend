@@ -100,3 +100,7 @@
  .luxe-nav { flex-wrap:wrap; justify-content:center; padding-block:8px; }
  .luxe-actions { width:100%; justify-content:center; gap:12px; }
 }
+
+/* Shared across every route, including before the cart page loads. */
+.luxe-header .luxe-actions .luxe-bag{position:relative;display:grid;place-items:center;width:44px;height:44px;gap:0;overflow:visible;flex-shrink:0}
+.luxe-header .luxe-actions .luxe-bag>span{position:absolute;top:0;right:0;display:grid;place-items:center;min-width:18px;width:auto;height:18px;padding:0 4px;border:2px solid #faf8f3;border-radius:999px;font-size:9px;line-height:1;pointer-events:none}

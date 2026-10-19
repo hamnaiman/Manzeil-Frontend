@@ -112,3 +112,22 @@
 .category-tabs button:focus-visible{outline:2px solid #9a7853;outline-offset:3px}
 @media(max-width:540px){.category-tabs button{font-size:11px;padding:9px 13px}}
 @media(prefers-reduced-motion:reduce){.category-tabs button{transition:none}}
+/* One mobile banner layout: photo and copy stay in normal flow. */
+@media(max-width:900px){
+ main.collection-page .category-hero:not(.collection-all){--campaign-paper:#eedfcb;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;gap:0;min-height:0;height:auto;padding:0;margin:14px 16px 0;background:var(--campaign-paper);border-radius:18px}
+ main.collection-page .category-hero.category-dark:not(.collection-all){--campaign-paper:#201710}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-photo{position:relative;inset:auto;display:block;grid-row:1;grid-column:1;width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:2.5;object-fit:cover;object-position:right top;padding:0;margin:0;mask-image:linear-gradient(to bottom,#000 88%,transparent 100%)}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-shade{display:none}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-copy{position:relative;grid-row:2;grid-column:1;width:100%;min-width:0;padding:12px 26px 26px;margin:0;background:none;text-align:left}
+ main.collection-page .category-hero:not(.collection-all) .category-breadcrumb{margin:0 0 20px;font-size:10px;gap:8px}
+ main.collection-page .category-hero:not(.collection-all) h1{font-size:clamp(29px,6.5vw,40px);line-height:1.1;letter-spacing:-.8px;margin:12px 0;max-width:520px;overflow-wrap:break-word}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-copy>p{font-size:13px;line-height:1.7;max-width:480px;margin:0}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-cta{min-height:44px;padding:12px 18px;margin-top:18px;font-size:11px}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-note{display:none}
+}
+@media(max-width:540px){
+ main.collection-page .category-hero:not(.collection-all){margin:12px 12px 0;border-radius:16px}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-photo{aspect-ratio:1.85}
+ main.collection-page .category-hero:not(.collection-all) .category-hero-copy{padding:10px 20px 23px}
+ main.collection-page .category-hero:not(.collection-all) .category-eyebrow{font-size:8px;letter-spacing:2px}
+}

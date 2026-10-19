@@ -1,29 +1,31 @@
-import Reviews from './pages/admin/Reviews.jsx';
-import Blog, { BlogArticle } from './pages/Blog.jsx';
-import BlogPosts from './pages/admin/BlogPosts.jsx';
-import Collection from "./pages/Collection.jsx";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
-
 import Home from "./pages/Home.jsx";
-import ProductDetail from "./pages/ProductDetail.jsx";
-import Cart from "./pages/Cart.jsx";
-import Checkout from "./pages/Checkout.jsx";
-import AdminLogin from "./pages/AdminLogin.jsx";
-import AdminDashboard from "./pages/AdminDashboard.jsx";
-import Overview from "./pages/admin/Overview.jsx";
-import AddProduct from "./pages/admin/AddProduct.jsx";
-import Orders from "./pages/admin/Orders.jsx";
-import Reports from "./pages/admin/Reports.jsx";
 
-import Contact from "./pages/Contact.jsx";
+const Reviews=lazy(()=>import('./pages/admin/Reviews.jsx'));
+const Blog=lazy(()=>import('./pages/Blog.jsx'));
+const BlogArticle=lazy(()=>import('./pages/Blog.jsx').then(module=>({default:module.BlogArticle})));
+const BlogPosts=lazy(()=>import('./pages/admin/BlogPosts.jsx'));
+const Collection=lazy(()=>import("./pages/Collection.jsx"));
 
-import WebsiteSettings from "./pages/admin/WebsiteSettings.jsx";
-import ContactMessages from "./pages/admin/ContactMessages.jsx";
+const ProductDetail=lazy(()=>import("./pages/ProductDetail.jsx"));
+const Cart=lazy(()=>import("./pages/Cart.jsx"));
+const Checkout=lazy(()=>import("./pages/Checkout.jsx"));
+const AdminLogin=lazy(()=>import("./pages/AdminLogin.jsx"));
+const AdminDashboard=lazy(()=>import("./pages/AdminDashboard.jsx"));
+const Overview=lazy(()=>import("./pages/admin/Overview.jsx"));
+const AddProduct=lazy(()=>import("./pages/admin/AddProduct.jsx"));
+const Orders=lazy(()=>import("./pages/admin/Orders.jsx"));
+const Reports=lazy(()=>import("./pages/admin/Reports.jsx"));
+
+const Contact=lazy(()=>import("./pages/Contact.jsx"));
+
+const WebsiteSettings=lazy(()=>import("./pages/admin/WebsiteSettings.jsx"));
+const ContactMessages=lazy(()=>import("./pages/admin/ContactMessages.jsx"));
 
 function StorefrontLayout({ children }) {
   const location = useLocation();
@@ -41,19 +43,17 @@ function StorefrontLayout({ children }) {
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 1500); // 1.5 second — chahen to 1000 (1 sec) kar dein
-
-    return () => clearTimeout(timer);
-  }, []);
+  useEffect(()=>{
+    if(!showSplash)return;
+    const timer=setTimeout(()=>setShowSplash(false),1900);
+    return()=>clearTimeout(timer);
+  },[showSplash]);
 
   return (
     <>
       <AnimatePresence>{showSplash && <SplashScreen />}</AnimatePresence>
 
-      {!showSplash && (
+      <Suspense fallback={<div className="route-loading" role="status">Loading your page…</div>}>
         <Routes>
           <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
           <Route path="/products" element={<StorefrontLayout><Collection /></StorefrontLayout>} />
@@ -80,7 +80,7 @@ function App() {
             <Route path="reports" element={<Reports />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Navigate to="/admin/blog" replace />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
           </Route>
         </Routes>
-      )}
+      </Suspense>
     </>
   );
 }

@@ -1,3 +1,4 @@
+import StoreImage from '../components/StoreImage.jsx';
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, ArrowRight, ShieldCheck, Eye, EyeOff } from "lucide-react";
@@ -29,7 +30,7 @@ const AdminLogin = () => {
   return (
     <div className="h-screen w-screen bg-[#FBF9F5] flex items-center justify-center px-4 relative overflow-hidden">
       {/* Large blurred logo watermark in background */}
-      <img
+      <StoreImage
         src={logo}
         alt=""
         aria-hidden="true"
@@ -41,7 +42,7 @@ const AdminLogin = () => {
       <div className="relative z-10 w-full max-w-sm bg-white rounded-2xl shadow-xl border border-[#EFECE6] px-7 py-7 sm:px-8 sm:py-8">
         {/* Small logo + heading */}
         <div className="flex flex-col items-center mb-6">
-          <img src={logo} alt="Manzeil" className="h-9 w-auto mb-3" />
+          <StoreImage src={logo} alt="Manzeil" className="h-9 w-auto mb-3" />
           <p className="text-[10px] tracking-[0.3em] text-[#B7AEA4] uppercase">
             Administrator Portal
           </p>

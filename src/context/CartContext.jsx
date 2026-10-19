@@ -6,12 +6,11 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(() => {
-    const stored = localStorage.getItem("cartItems");
-    return stored ? JSON.parse(stored) : [];
+    try { const stored=JSON.parse(localStorage.getItem("cartItems")||"[]"); return Array.isArray(stored)?stored.filter(item=>item&&typeof item.product==="string"&&Number.isFinite(item.quantity)&&item.quantity>0&&Number.isFinite(item.price)):[]; } catch { return []; }
   });
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    try { localStorage.setItem("cartItems", JSON.stringify(cartItems)); } catch {}
   }, [cartItems]);
 
   const addToCart = (item, quantity = 1) => {

@@ -1,3 +1,4 @@
+import StoreImage from '../../components/StoreImage.jsx';
 
 import "../../styles/admin-media.css";
 import React, { useEffect, useState, useRef } from "react";
@@ -327,7 +328,7 @@ const AddProduct = () => {
                       key={idx}
                       className="admin-gallery-item"
                     >
-                      <img src={img.url} alt={"Gallery image "+(idx+1)} /><span>{idx===0 ? "Current cover" : "Gallery"}</span><button type="button" onClick={()=>{ setExistingImages(current=>[current[idx],...current.filter((_,i)=>i!==idx)]); setNewImagesFirst(false); }}>Make cover</button><button type="button" onClick={()=>setExistingImages(current=>current.filter((_,i)=>i!==idx))}>Remove</button>
+                      <StoreImage src={img.url} alt={"Gallery image "+(idx+1)} /><span>{idx===0 ? "Current cover" : "Gallery"}</span><button type="button" onClick={()=>{ setExistingImages(current=>[current[idx],...current.filter((_,i)=>i!==idx)]); setNewImagesFirst(false); }}>Make cover</button><button type="button" onClick={()=>setExistingImages(current=>current.filter((_,i)=>i!==idx))}>Remove</button>
                     </div>
                   ))}
                 </div>
@@ -344,7 +345,7 @@ const AddProduct = () => {
                   {imagePreviews.map((src, idx) => (
                     <div key={idx} className="relative w-16 h-16 group">
                       <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
-                        <img src={src} alt="" className="w-full h-full object-cover" />
+                        <StoreImage src={src} alt="" className="w-full h-full object-cover" />
                       </div>
                       <button
                         type="button"
@@ -472,7 +473,7 @@ const AddProduct = () => {
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                             {p.images?.[0]?.url ? (
-                              <img
+                              <StoreImage
                                 src={p.images[0].url}
                                 alt={p.name}
                                 className="w-full h-full object-cover"
