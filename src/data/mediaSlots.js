@@ -1,6 +1,7 @@
 import { heroBottles } from "./heroBottles.js";
 import { collections } from "./collections.js";
 export const mediaSlots = [
+ {key:"storyImage",label:"The Manzeil Philosophy — arch image",url:"/images/posts/hitman.png"},
  {key:"perspectivesLeft",label:"Two Perspectives — left lifestyle image",url:"/images/perspectives/quiet-moments.png"},
  {key:"perspectivesRight",label:"Two Perspectives — right lifestyle image",url:"/images/perspectives/golden-moments.png"},
  ...Object.entries(collections).map(([key,item])=>({key:key+"Hero",label:item.label+" — collection hero",url:item.image})),
@@ -16,6 +17,7 @@ export const mediaSlots = [
 export const mediaUrl = (media,key) => media?.[key] || mediaSlots.find(slot=>slot.key===key)?.url;
 
 export function mediaGuidance(key) {
+ if(key==="storyImage")return {size:"1400 × 1600 px",ratio:"7:8",note:"Upload a full rectangular portrait. The website creates the arch automatically. Keep faces and bottles near the centre with space above the head and around the edges for the arch and scroll animation.",format:"JPG, PNG or WebP"};
  if(key==="perspectivesLeft"||key==="perspectivesRight")return {size:"1600 × 800 px",ratio:"2:1",note:"Keep the entire head and perfume visible. Leave room at the lower edge for the caption.",format:"JPG or WebP"};
  if(key.endsWith("Hero"))return {size:"2400 × 800 px",ratio:"3:1",note:"Keep the left 50% clear for text. Keep heads, hands and bottles inside the right half with space around the edges.",format:"JPG or WebP"};
  if(key.endsWith("Bottle"))return {size:"1000 × 1400 px",ratio:"5:7",note:"Transparent background. Centre the entire bottle with margin around the cap and base.",format:"Transparent PNG"};
