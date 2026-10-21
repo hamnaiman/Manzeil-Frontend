@@ -1,3 +1,4 @@
+import { trackPage } from "./utils/trackVisit.js";
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
@@ -20,6 +21,7 @@ const AdminDashboard=lazy(()=>import("./pages/AdminDashboard.jsx"));
 const Overview=lazy(()=>import("./pages/admin/Overview.jsx"));
 const AddProduct=lazy(()=>import("./pages/admin/AddProduct.jsx"));
 const Orders=lazy(()=>import("./pages/admin/Orders.jsx"));
+const VisitorAnalytics=lazy(()=>import("./pages/admin/VisitorAnalytics.jsx"));
 const Reports=lazy(()=>import("./pages/admin/Reports.jsx"));
 
 const Contact=lazy(()=>import("./pages/Contact.jsx"));
@@ -29,6 +31,7 @@ const ContactMessages=lazy(()=>import("./pages/admin/ContactMessages.jsx"));
 
 function StorefrontLayout({ children }) {
   const location = useLocation();
+  useEffect(()=>{const timer=setTimeout(()=>trackPage(location.pathname),150);return()=>clearTimeout(timer);},[location.pathname]);
   useEffect(() => {
     if (!location.hash) window.scrollTo({ top: 0, behavior: "instant" });
   }, [location.pathname]);
@@ -77,7 +80,7 @@ function App() {
             <Route index element={<Overview />} />
             <Route path="products" element={<AddProduct />} /><Route path="reviews" element={<Reviews />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="reports" element={<Reports />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Navigate to="/admin/blog" replace />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
+            <Route path="reports" element={<Reports />} /><Route path="visitors" element={<VisitorAnalytics />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Navigate to="/admin/blog" replace />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
           </Route>
         </Routes>
       </Suspense>

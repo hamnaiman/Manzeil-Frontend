@@ -1,7 +1,7 @@
 import StoreImage from '../components/StoreImage.jsx';
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Package, Clapperboard, Settings, Mail, ShoppingBag, ChartColumn, Menu, X, LogOut, ArrowUpRight } from "lucide-react";
+import { Globe, LayoutDashboard, Package, Clapperboard, Settings, Mail, ShoppingBag, ChartColumn, Menu, X, LogOut, ArrowUpRight } from "lucide-react";
 import logo from "../assets/manzeil-logo.png";
 
 const links = [
@@ -13,6 +13,7 @@ const links = [
   ["/admin/messages", "Contact Messages", Mail],
   ["/admin/orders", "Orders", ShoppingBag],
   ["/admin/reports", "Reports", ChartColumn],
+  ["/admin/visitors", "Visitor Analytics", Globe],
 ];
 export default function AdminDashboard() {
   const navigate = useNavigate();
