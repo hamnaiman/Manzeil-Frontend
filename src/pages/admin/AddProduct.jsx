@@ -17,6 +17,7 @@ import {scentNotes} from '../../data/scentMatching.js';
 import api from "../../api/axios.js";
 
 const emptyForm = {
+  seoTitle:"", seoDescription:"", seoKeywords:"",
   name: "",
   brand: "",
   description: "",
@@ -93,6 +94,7 @@ const AddProduct = () => {
     setEditingId(product._id);
     setForm({
       name: product.name || "",
+      seoTitle:product.seoTitle||"", seoDescription:product.seoDescription||"", seoKeywords:product.seoKeywords||"",
       brand: product.brand || "",
       description: product.description || "",
       notes: (product.notes || []).join(", "),
@@ -191,6 +193,7 @@ const AddProduct = () => {
           onSubmit={handleSubmit}
           className="lg:col-span-2 bg-white border border-gray-100 rounded-xl p-6 space-y-5"
         >
+          <details className="admin-product-seo"><summary>Search appearance (SEO)</summary><p>Leave blank to use the product name and description automatically. Use target phrases naturally in your visible product description.</p><label>SEO title · up to 70 characters<input name="seoTitle" value={form.seoTitle} onChange={handleChange} maxLength={70} className={inputClass} placeholder="Obsession Perfume | Manzeil Pakistan"/></label><label>SEO description · up to 180 characters<textarea name="seoDescription" value={form.seoDescription} onChange={handleChange} maxLength={180} className={inputClass} rows={3}/></label><label>Target keywords · comma separated<input name="seoKeywords" value={form.seoKeywords} onChange={handleChange} maxLength={300} className={inputClass} placeholder="Obsession perfume, unisex perfume Pakistan"/></label><p>Product-name URLs are assigned automatically. Existing URLs stay stable when you rename a product.</p></details>
           {/* Basic Info */}
           <div className="grid sm:grid-cols-2 gap-4">
             <input

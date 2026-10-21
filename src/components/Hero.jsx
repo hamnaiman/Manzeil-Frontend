@@ -1,3 +1,4 @@
+import {productPath} from "../utils/productPath.js";
 import { storeImage } from '../utils/storeImage.js';
 import StoreImage, { MotionStoreImage } from './StoreImage.jsx';
 import React, { useEffect, useState } from "react";
@@ -40,7 +41,7 @@ export default function Hero({ products = [], media = {} }) {
           <span className="bottle-eyebrow">{active.eyebrow}</span>
           <h2>{active.headline[0]}<br /><em>{active.headline[1]}</em></h2>
           <p>{active.description}</p>
-          {product ? <Link className="bottle-shop" to={"/product/" + product._id}>Discover {active.name}</Link> : <a className="bottle-shop" href="#collection">Explore the collection</a>}
+          {product ? <Link className="bottle-shop" to={productPath(product)}>Discover {active.name}</Link> : <a className="bottle-shop" href="#collection">Explore the collection</a>}
         </motion.div></AnimatePresence></div>
       </div>
       <div className="bottle-stage">

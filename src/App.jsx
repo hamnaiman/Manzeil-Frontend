@@ -1,3 +1,4 @@
+import RouteSeo from "./components/Seo.jsx";
 import { trackPage } from "./utils/trackVisit.js";
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -41,7 +42,7 @@ function StorefrontLayout({ children }) {
     measure();const observer=new ResizeObserver(measure);observer.observe(header);
     return()=>observer.disconnect();
   },[]);
-  return <div className="storefront-shell"><Navbar /><div key={location.pathname} className="storefront-page route-enter">{children}</div></div>;
+  return <div className="storefront-shell"><RouteSeo /><Navbar /><div key={location.pathname} className="storefront-page route-enter">{children}</div></div>;
 }
 function App() {
   const [showSplash, setShowSplash] = useState(true);

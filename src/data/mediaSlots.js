@@ -1,6 +1,8 @@
 import { heroBottles } from "./heroBottles.js";
 import { collections } from "./collections.js";
 export const mediaSlots = [
+ {key:"perspectivesLeft",label:"Two Perspectives — left lifestyle image",url:"/images/perspectives/quiet-moments.png"},
+ {key:"perspectivesRight",label:"Two Perspectives — right lifestyle image",url:"/images/perspectives/golden-moments.png"},
  ...Object.entries(collections).map(([key,item])=>({key:key+"Hero",label:item.label+" — collection hero",url:item.image})),
  {key:"logo",label:"Hero logo",url:"/manzeil-logo.png"},
  ...heroBottles.flatMap(b => [
@@ -14,6 +16,7 @@ export const mediaSlots = [
 export const mediaUrl = (media,key) => media?.[key] || mediaSlots.find(slot=>slot.key===key)?.url;
 
 export function mediaGuidance(key) {
+ if(key==="perspectivesLeft"||key==="perspectivesRight")return {size:"1600 × 800 px",ratio:"2:1",note:"Keep the entire head and perfume visible. Leave room at the lower edge for the caption.",format:"JPG or WebP"};
  if(key.endsWith("Hero"))return {size:"2400 × 800 px",ratio:"3:1",note:"Keep the left 50% clear for text. Keep heads, hands and bottles inside the right half with space around the edges.",format:"JPG or WebP"};
  if(key.endsWith("Bottle"))return {size:"1000 × 1400 px",ratio:"5:7",note:"Transparent background. Centre the entire bottle with margin around the cap and base.",format:"Transparent PNG"};
  if(key.endsWith("Decor"))return {size:"1000 × 1000 px",ratio:"1:1",note:"Keep the full fruit, flower or wood arrangement inside the image.",format:"Transparent PNG"};

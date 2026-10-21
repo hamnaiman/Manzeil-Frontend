@@ -1,3 +1,4 @@
+import Perspectives from "../components/Perspectives.jsx";
 import StoreImage from '../components/StoreImage.jsx';
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
@@ -82,6 +83,7 @@ export default function Home() {
     </section>
 
     {contentError && <p className="content-load-error" role="status">Website settings are temporarily unavailable. <button onClick={() => setContentVersion(v => v + 1)}>Retry</button></p>}
+    <Perspectives content={content} />
     <BlogSection />
     <section className="scent-section signature-section">
       <Reveal className="section-heading"><span className="section-pill">03 / THE CURATED EDITS</span><h2>Different moods.<br /><em>One unmistakable you.</em></h2></Reveal>

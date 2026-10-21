@@ -5,3 +5,5 @@
 .upload-size-guide { margin:10px 0 12px;padding:10px;background:#f2eadf;border-radius:8px;color:#67543c;font-size:11px;line-height:1.6; }
 .upload-size-guide strong,.upload-size-guide span { display:block; }
 .upload-size-guide p { margin:5px 0 0;font-size:10px; }
+.admin-product-seo{padding:18px;border:1px solid #e2d8cb;border-radius:12px;background:#fcfaf7}.admin-product-seo summary{cursor:pointer;font-weight:500;font-size:14px}.admin-product-seo p{font-size:12px;line-height:1.7;color:#8e7d67;margin:12px 0}.admin-product-seo label{display:block;font-size:12px;margin:14px 0}.admin-product-seo input,.admin-product-seo textarea{margin-top:8px}
+.perspectives-admin-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}.perspectives-admin-fields label{min-width:0}@media(max-width:650px){.perspectives-admin-fields{grid-template-columns:1fr}}

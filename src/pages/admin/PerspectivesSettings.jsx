@@ -1,0 +1,10 @@
+import React,{useEffect,useState} from "react";
+import api from "../../api/axios.js";
+import {perspectiveDefaults,perspectiveFields} from "../../data/perspectives.js";
+export default function PerspectivesSettings(){
+ const [form,setForm]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(""),[message,setMessage]=useState("");
+ async function load(){try{const {data}=await api.get("/content");setForm({...perspectiveDefaults,...data.data.perspectives});setError("");}catch{setError("Could not load homepage section settings.");}}
+ useEffect(()=>{load();},[]);
+ async function save(event){event.preventDefault();setBusy(true);setError("");setMessage("");try{const {data}=await api.put("/content",{perspectives:form});setForm({...perspectiveDefaults,...data.data.perspectives});setMessage("Homepage section saved.");}catch(err){setError(err.response?.data?.message||"Could not save section.");}finally{setBusy(false);}}
+ return <section className="admin-media-library"><h2>Homepage · Two Perspectives</h2><p>Manage the editorial section, captions and highlights. Replace both lifestyle images in Website image studio below. Recommended image size: 1600 × 800 px (2:1), JPG/WebP, maximum 5 MB.</p>{error&&<p className="cms-error" role="alert">{error} {!form&&<button onClick={load}>Retry</button>}</p>}{message&&<p className="cms-success" role="status">{message}</p>}{form&&<form onSubmit={save}><label className="admin-cover-option"><input type="checkbox" checked={form.enabled} onChange={event=>setForm({...form,enabled:event.target.checked})}/> Show this section on the homepage</label><div className="perspectives-admin-fields cms-fields">{perspectiveFields.map(([key,label,max,multiline])=><label key={key}>{label}{multiline?<textarea required rows={3} maxLength={max} value={form[key]} onChange={event=>setForm({...form,[key]:event.target.value})}/>:<input required maxLength={max} value={form[key]} onChange={event=>setForm({...form,[key]:event.target.value})}/>}</label>)}</div><button className="scent-button" disabled={busy}>{busy?"Saving…":"Save homepage section"}</button></form>}</section>;
+}

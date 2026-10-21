@@ -35,6 +35,7 @@ export const CartProvider = ({ children }) => {
         ...prev,
         {
           product: productId,
+          slug: item.slug,
           name,
           price,
           image,

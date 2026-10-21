@@ -1,0 +1,6 @@
+import fs from "node:fs";
+const read=p=>fs.readFileSync(p,"utf8"),write=(p,s)=>fs.writeFileSync(p,s);
+let s=read("src/pages/Home.jsx");s='import Perspectives from "../components/Perspectives.jsx";\n'+s;s=s.replace('    <BlogSection />','    <Perspectives content={content} />\n    <BlogSection />');write("src/pages/Home.jsx",s);
+s=read("src/pages/admin/WebsiteSettings.jsx");s='import PerspectivesSettings from "./PerspectivesSettings.jsx";\n'+s;s=s.replace('<CollectionSettings />','<PerspectivesSettings /><CollectionSettings />');write("src/pages/admin/WebsiteSettings.jsx",s);
+s=read("src/data/mediaSlots.js");s=s.replace('export const mediaSlots = [','export const mediaSlots = [\n {key:"perspectivesLeft",label:"Two Perspectives — left lifestyle image",url:"/images/perspectives/quiet-moments.png"},\n {key:"perspectivesRight",label:"Two Perspectives — right lifestyle image",url:"/images/perspectives/golden-moments.png"},');
+s=s.replace('export function mediaGuidance(key) {','export function mediaGuidance(key) {\n if(key==="perspectivesLeft"||key==="perspectivesRight")return {size:"1600 × 800 px",ratio:"2:1",note:"Keep the entire head and perfume visible. Leave room at the lower edge for the caption.",format:"JPG or WebP"};');write("src/data/mediaSlots.js",s);
