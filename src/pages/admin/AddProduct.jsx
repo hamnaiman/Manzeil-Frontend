@@ -444,7 +444,7 @@ const AddProduct = () => {
         </div>
 
         <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
-          <div className="overflow-x-auto" role="region" aria-label="Products table, scroll horizontally to view all columns" tabIndex={0}>
+          <div className="overflow-x-auto admin-table-scroll admin-products-scroll" role="region" aria-label="Products table, scroll horizontally to view all columns" tabIndex={0}>
             <table className="w-full text-sm">
               <thead className="bg-gray-50 text-left text-gray-500 text-xs uppercase tracking-wide">
                 <tr>
@@ -561,3 +561,4 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+

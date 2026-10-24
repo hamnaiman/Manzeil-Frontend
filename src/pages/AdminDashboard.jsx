@@ -1,3 +1,4 @@
+import "../styles/admin-tables.css";
 import StoreImage from '../components/StoreImage.jsx';
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -38,3 +39,4 @@ export default function AdminDashboard() {
     <div className="admin-workspace"><header className="admin-topbar print:hidden"><div><span>MANZEIL / ADMIN</span><p>{title}</p></div><Link to="/">View store <ArrowUpRight size={15} /></Link></header><main className="admin-main"><div key={location.pathname} className="route-enter"><Outlet /></div></main></div>
   </div>;
 }
+

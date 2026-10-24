@@ -1,0 +1,27 @@
+/* Keep administration data as tables at every screen size. */
+@media screen{
+.admin-shell .admin-workspace,.admin-shell .admin-main,.admin-main>.route-enter{min-width:0;max-width:100%}
+.admin-main>.route-enter{width:100%}
+.admin-main .admin-table-scroll{display:block;width:100%;min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#bcaa91 #f4eee5;isolation:isolate}
+.admin-main .admin-table-scroll:focus-visible{outline:2px solid #aa8755;outline-offset:-2px}
+.admin-main .admin-table-scroll::-webkit-scrollbar{height:7px}.admin-main .admin-table-scroll::-webkit-scrollbar-thumb{background:#bcaa91;border-radius:8px}.admin-main .admin-table-scroll::-webkit-scrollbar-track{background:#f4eee5}
+.admin-main .admin-table-scroll table{display:table;width:100%;border-collapse:separate;border-spacing:0;table-layout:auto}
+.admin-main .admin-table-scroll thead{display:table-header-group}.admin-main .admin-table-scroll tbody{display:table-row-group}.admin-main .admin-table-scroll tr{display:table-row}.admin-main .admin-table-scroll :is(th,td){display:table-cell;vertical-align:middle}
+.admin-main .admin-products-scroll table{min-width:790px}.admin-main .admin-reports-scroll table{min-width:610px}.admin-main .admin-visitors-scroll table{min-width:550px}
+.admin-main .admin-orders-scroll .order-list-table{min-width:650px;table-layout:fixed}
+.admin-main .admin-orders-scroll .order-list-table th:nth-child(1){width:19%}.admin-main .admin-orders-scroll .order-list-table th:nth-child(2){width:26%}.admin-main .admin-orders-scroll .order-list-table th:nth-child(3){width:19%}.admin-main .admin-orders-scroll .order-list-table th:nth-child(4){width:17%}.admin-main .admin-orders-scroll .order-list-table th:last-child{width:19%}
+.admin-main .admin-orders-scroll .order-view-button span{display:inline}.admin-main .admin-orders-scroll .order-list-source{display:inline}
+.admin-main .admin-table-scroll th{white-space:nowrap}.admin-main .admin-table-scroll :is(td,th){overflow-wrap:normal}
+.admin-main .admin-products-scroll td:first-child{min-width:210px;max-width:300px;overflow-wrap:anywhere}.admin-main .admin-products-scroll td:last-child{white-space:nowrap}
+.admin-main .admin-orders-scroll td:nth-child(2){overflow-wrap:anywhere}
+@media(max-width:760px){
+.admin-main .admin-table-scroll :is(th,td){padding:12px 13px;font-size:12px}
+.admin-main .admin-table-scroll th{font-size:10px;letter-spacing:.04em}
+.admin-main .admin-orders-scroll .order-list-table strong{font-size:12px}.admin-main .admin-orders-scroll .order-list-table small{font-size:11px;line-height:1.5}
+.admin-main .admin-orders-scroll .ops-status-badge{font-size:11px;padding:6px 8px;white-space:nowrap}
+.admin-main .admin-orders-scroll .order-view-button{border:1px solid #e7ddcf;padding:8px;min-height:40px;font-size:11px;white-space:nowrap}
+.admin-main .admin-table-scroll td :is(button,select){min-height:40px}
+.admin-main .admin-products-scroll td:first-child>div{gap:9px}
+}
+}
+@media print{.admin-main .admin-table-scroll{overflow:visible;max-width:none}.admin-main .admin-table-scroll table{min-width:0!important;width:100%}}
