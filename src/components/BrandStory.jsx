@@ -2,7 +2,8 @@ import StoreImage, { MotionStoreImage } from './StoreImage.jsx';
 import React, { useMemo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import logo from "../assets/manzeil-logo.png";
+import logo from "../assets/manzeil-gold-emblem.png";
+import backdropLogo from "../assets/manzeil-logo.png";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -37,7 +38,7 @@ export default function BrandStory({ content }) {
       {/* Backdrop: Manzeil logo (blurred, parallax) */}
       <div className="sv2-logo-wrap" aria-hidden="true">
         <MotionStoreImage
-          src={logo}
+          src={backdropLogo}
           alt=""
           className="sv2-logo"
           style={{ y: logoY, rotate: logoRotate }}
@@ -203,3 +204,4 @@ export default function BrandStory({ content }) {
     </section>
   );
 }
+
