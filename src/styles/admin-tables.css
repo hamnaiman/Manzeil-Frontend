@@ -25,3 +25,44 @@
 }
 }
 @media print{.admin-main .admin-table-scroll{overflow:visible;max-width:none}.admin-main .admin-table-scroll table{min-width:0!important;width:100%}}
+
+/* Orders fit the workspace; merge customer into the order cell on narrow screens. */
+@media screen{
+.admin-main .admin-orders-scroll .order-list-table{min-width:0;width:100%;table-layout:fixed}
+.order-mobile-customer{display:none}
+.admin-main .admin-orders-scroll .order-list-table :is(td,th){overflow-wrap:anywhere}
+.order-operations .order-detail-dialog{margin:auto;box-sizing:border-box}
+.order-detail-dialog .order-detail-body{background:#f5f0e8}
+.order-detail-dialog .order-detail-body>section{background:#fffdfa;border:1px solid #e8decf;border-radius:12px;padding:18px;margin-top:14px;box-shadow:0 3px 12px #49321b04}
+.order-detail-dialog .order-detail-body>section+section{padding-top:18px}
+.order-detail-dialog .order-detail-summary{margin-bottom:16px;padding:4px 0}
+.order-detail-dialog .order-detail-internal{background:#f9f5ed}
+.order-detail-dialog .order-detail-totals{background:#f7f2e9;border-radius:8px;padding:12px;margin-top:16px}
+.order-detail-dialog .order-detail-grand dd{font-size:18px;color:#594127}
+@media(max-width:760px){
+.admin-main .admin-orders-scroll .order-list-table :is(th,td){padding:13px 8px}
+.admin-main .admin-orders-scroll .order-list-table :is(th,td):nth-child(2){display:none}
+.admin-main .admin-orders-scroll .order-list-table th:nth-child(1){width:37%}
+.admin-main .admin-orders-scroll .order-list-table th:nth-child(3){width:25%}
+.admin-main .admin-orders-scroll .order-list-table th:nth-child(4){width:24%}
+.admin-main .admin-orders-scroll .order-list-table th:last-child{width:14%}
+.admin-main .admin-orders-scroll .order-mobile-customer{display:block;font-size:11px;line-height:1.5;color:#655542;margin-top:6px}
+.admin-main .admin-orders-scroll .order-list-table small{font-size:10px}
+.admin-main .admin-orders-scroll .order-list-table strong{font-size:11px;line-height:1.5}
+.admin-main .admin-orders-scroll .ops-status-badge{padding:4px 0;font-size:10px;background:transparent;white-space:normal;line-height:1.5}
+.admin-main .admin-orders-scroll .order-view-button{padding:0;width:34px;min-height:40px;border:1px solid #e7ddcf;display:inline-flex;justify-content:center}
+.admin-main .admin-orders-scroll .order-view-button span{display:none}
+.order-operations .order-list-filters{padding:12px}
+.order-operations .order-status-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:5px}
+.order-operations .order-status-tabs button{padding:9px 4px;font-size:11px;min-height:38px}
+.order-operations .order-list-tools{width:100%;justify-content:space-between}
+.order-operations .ops-pagination{padding:14px 10px;gap:8px;flex-wrap:wrap;font-size:11px}
+.order-operations .ops-pagination button{padding:7px;font-size:11px}
+.order-detail-dialog .order-detail-header{padding:18px}
+.order-detail-dialog .order-detail-body{padding:12px}
+.order-detail-dialog .order-detail-body>section{padding:14px}
+.order-detail-dialog .order-detail-footer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end}
+.order-detail-dialog .order-detail-footer select{min-width:0;width:100%;font-size:14px}
+.order-detail-dialog .order-detail-footer button{min-width:0;padding:12px 8px;justify-content:center;white-space:normal}
+}
+}

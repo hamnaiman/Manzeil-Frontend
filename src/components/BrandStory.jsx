@@ -176,32 +176,27 @@ export default function BrandStory({ content }) {
           {/* rotating seal */}
           <motion.div
             className="sv2-seal"
-            initial={{ opacity: 0, scale: 0.4, rotate: -90 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+            initial={{ opacity: 0, scale: 0.9, y: 12 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1.1, delay: 1, ease }}
           >
-            <motion.svg
-              viewBox="0 0 200 200"
-              className="sv2-seal-ring"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-              aria-hidden="true"
-            >
-              <defs>
-                <path id="sv2-circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
-              </defs>
-              <text>
-                <textPath href="#sv2-circle" textLength="486" lengthAdjust="spacing">
-                  MANZEIL · JO TUM CHAHO · MANZEIL · JO TUM CHAHO ·
-                </textPath>
-              </text>
-            </motion.svg>
-            <StoreImage src={logo} alt="Manzeil" className="sv2-seal-logo" />
+            <svg className="sv2-seal-ring sv2-square-track" viewBox="0 0 200 200" aria-hidden="true">
+              <defs><path id="sv2-square-path" d="M16 16 H184 V184 H16 Z" /></defs>
+              <text><textPath href="#sv2-square-path" startOffset="0" textLength="2016" lengthAdjust="spacing">
+                {'MANZEIL · JO TUM CHAHO · '.repeat(12)}
+                <animate attributeName="startOffset" from="0" to="-672" dur="26s" repeatCount="indefinite" />
+              </textPath></text>
+            </svg>
+            <StoreImage src={logo} alt="Manzeil — Jo Tum Chaho" className="sv2-seal-logo" />
           </motion.div>
         </motion.div>
       </div>
     </section>
   );
 }
+
+
+
+
 
