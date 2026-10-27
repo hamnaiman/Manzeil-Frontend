@@ -47,15 +47,11 @@ function StorefrontLayout({ children }) {
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
-  useEffect(()=>{
-    if(!showSplash)return;
-    const timer=setTimeout(()=>setShowSplash(false),1900);
-    return()=>clearTimeout(timer);
-  },[showSplash]);
+  const finishSplash = React.useCallback(() => setShowSplash(false), []);
 
   return (
     <>
-      <AnimatePresence>{showSplash && <SplashScreen />}</AnimatePresence>
+      <AnimatePresence>{showSplash && <SplashScreen onComplete={finishSplash} />}</AnimatePresence>
 
       <Suspense fallback={<div className="route-loading" role="status">Loading your page…</div>}>
         <Routes>
@@ -90,3 +86,4 @@ function App() {
 }
 
 export default App;
+
