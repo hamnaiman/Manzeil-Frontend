@@ -1,25 +1,48 @@
-.manzeil-intro{position:fixed;inset:0;z-index:9999;background:#080808;overflow:hidden;isolation:isolate;display:grid;place-items:center;}
-.manzeil-intro-fallback{display:flex;flex-direction:column;align-items:center;gap:22px;color:#d8b876;}
+.manzeil-intro{position:fixed;inset:0;z-index:9999;background:#faf8f3;overflow:hidden;isolation:isolate;display:grid;place-items:center;}
+.manzeil-intro-fallback{display:flex;flex-direction:column;align-items:center;gap:22px;color:#96753d;}
 .manzeil-intro-fallback img{width:clamp(100px,17vw,190px);height:auto;object-fit:contain;}
 .manzeil-intro-fallback span{font:10px Arial,sans-serif;letter-spacing:.35em;}
-.manzeil-intro-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#080808;opacity:0;transition:opacity .3s ease;}
+.manzeil-intro-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#faf8f3;opacity:0;transition:opacity .3s ease;}
 .manzeil-intro-video.is-playing{opacity:1;}
 .manzeil-intro-skip{position:absolute;right:max(24px,env(safe-area-inset-right));bottom:max(26px,env(safe-area-inset-bottom));z-index:2;display:flex;align-items:center;gap:16px;padding:12px 18px;min-height:44px;border:1px solid #ffffff45;border-radius:30px;background:#101010a8;color:#fff;font:12px Arial,sans-serif;letter-spacing:.05em;cursor:pointer;backdrop-filter:blur(8px);transition:background .2s;}
-.manzeil-intro-skip:hover{background:#383027;}.manzeil-intro-skip:focus-visible{outline:2px solid #dfbd77;outline-offset:4px;}
+.manzeil-intro-skip:hover{background:#eee6d8;}.manzeil-intro-skip:focus-visible{outline:2px solid #dfbd77;outline-offset:4px;}
 @media(max-width:600px){.manzeil-intro-skip{right:18px;bottom:max(20px,env(safe-area-inset-bottom));}}
 @media(prefers-reduced-motion:reduce){.manzeil-intro-video,.manzeil-intro-skip{transition:none;}}
 
 /* The logo film blends into one animated brand canvas. */
-.manzeil-intro{background:radial-gradient(ellipse at 50% 48%,#21190e 0%,#100d09 45%,#080808 78%);}
+.manzeil-intro{background:#faf8f3;}
 .manzeil-intro-backdrop{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;}
-.manzeil-intro-backdrop img{width:min(74vw,760px);height:auto;opacity:.13;filter:blur(12px) saturate(.75);animation:intro-backdrop-breathe 7s ease-in-out infinite;}
+.manzeil-intro-backdrop img{width:min(74vw,760px);height:auto;opacity:.13;filter:blur(12px) saturate(.75);animation:none;transform:none;}
 .manzeil-intro-glow{position:absolute;inset:-30%;pointer-events:none;background:linear-gradient(115deg,transparent 35%,#d6a54a0d 48%,transparent 60%);animation:intro-light-drift 5s ease-in-out infinite;}
-.manzeil-intro-video{inset:50% auto auto 50%;transform:translate(-50%,-50%);width:min(88vw,1000px);height:80dvh;background:transparent;mix-blend-mode:screen;filter:contrast(1.06);-webkit-mask-image:radial-gradient(ellipse at center,#000 45%,#000d 62%,transparent 77%);mask-image:radial-gradient(ellipse at center,#000 45%,#000d 62%,transparent 77%);transition:opacity .6s ease;}
+.manzeil-intro-video{inset:50% auto auto 50%;transform:translate(-50%,-50%);width:min(88vw,1000px);height:80dvh;background:transparent;mix-blend-mode:multiply;filter:invert(1) hue-rotate(180deg) saturate(1.15);-webkit-mask-image:radial-gradient(ellipse at center,#000 45%,#000d 62%,transparent 77%);mask-image:radial-gradient(ellipse at center,#000 45%,#000d 62%,transparent 77%);transition:opacity .6s ease;}
 .manzeil-intro-fallback{transition:opacity .5s ease;}
 .intro-playing .manzeil-intro-fallback{opacity:0;}
-.manzeil-intro-skip{background:transparent;border-color:#c4a06935;color:#d4c3a9;font-size:11px;}
+.manzeil-intro-skip{background:#faf8f3b3;border-color:#a286563d;color:#725a37;font-size:11px;}
 @keyframes intro-backdrop-breathe{0%,100%{transform:scale(1) rotate(-3deg);opacity:.11}50%{transform:scale(1.08) rotate(1deg);opacity:.18}}
 @keyframes intro-light-drift{0%,100%{transform:translateX(-12%)}50%{transform:translateX(12%)}}
-@media(max-width:600px){.manzeil-intro-video{width:100vw;height:72dvh;}.manzeil-intro-backdrop img{width:90vw;filter:blur(9px);}}
+@media(max-width:600px){.manzeil-intro-video{width:76vw;max-width:310px;height:46dvh;}.manzeil-intro-backdrop img{width:72vw;max-width:330px;filter:blur(9px);}}
 @media(prefers-reduced-motion:reduce){.manzeil-intro-backdrop img,.manzeil-intro-glow{animation:none}.manzeil-intro-fallback{transition:none}}
 
+
+
+/* The foreground emblem remains at its final size from the first frame. */
+.manzeil-intro-lockup{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px;}
+.manzeil-intro-emblem{position:relative;width:clamp(140px,15vw,190px);aspect-ratio:1;}
+.manzeil-intro-emblem>img{display:block;width:100%;height:100%;object-fit:contain;}
+.manzeil-intro-shimmer{position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 34%,#fff9decc 48%,transparent 62%);background-size:280% 100%;mask-size:contain;-webkit-mask-size:contain;mask-position:center;-webkit-mask-position:center;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat;mix-blend-mode:screen;animation:intro-emblem-shimmer 1.5s ease-in-out .2s 2 both;}
+.manzeil-intro-tagline{margin:0;color:#856b43;font:11px Arial,sans-serif;letter-spacing:.35em;}
+@keyframes intro-emblem-shimmer{from{background-position:180% 0}to{background-position:-80% 0}}
+@media(max-width:600px){.manzeil-intro-emblem{width:clamp(125px,38vw,155px)}.manzeil-intro-lockup{gap:18px}.manzeil-intro-tagline{font-size:10px}}
+
+
+
+/* Both logo layers stay still: no size change during the intro. */
+.intro-native .manzeil-intro-emblem{width:160px;min-width:160px;max-width:160px;transform:none;animation:none;transition:none;}
+.intro-native .manzeil-intro-backdrop img{transform:none;animation:none;opacity:.13;}
+@media(max-width:600px){.intro-native .manzeil-intro-emblem{width:135px;min-width:135px;max-width:135px;}}
+
+/* Original complete logo animation, contained in a smaller fixed stage. */
+.intro-original .manzeil-intro-video{width:360px;max-width:85vw;height:360px;max-height:65dvh;object-fit:contain;transform:translate(-50%,-50%);}
+.intro-original .manzeil-intro-fallback img{width:160px;}
+.intro-original .manzeil-intro-backdrop img{animation:none;transform:none;}
+@media(max-width:600px){.intro-original .manzeil-intro-video{width:260px;height:260px;max-width:80vw;}.intro-original .manzeil-intro-fallback img{width:135px;}}
