@@ -46,3 +46,13 @@
 .intro-original .manzeil-intro-fallback img{width:160px;}
 .intro-original .manzeil-intro-backdrop img{animation:none;transform:none;}
 @media(max-width:600px){.intro-original .manzeil-intro-video{width:260px;height:260px;max-width:80vw;}.intro-original .manzeil-intro-fallback img{width:135px;}}
+
+/* Render the original golden animation over transparency, without dark video pixels. */
+.manzeil-intro-source{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;}
+.manzeil-intro-canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:290px;max-width:70vw;height:290px;max-height:60dvh;object-fit:contain;opacity:0;pointer-events:none;}
+.manzeil-intro-canvas.is-playing{opacity:1;}
+.intro-original .manzeil-intro-fallback img{width:110px;}
+.intro-original .manzeil-intro-backdrop img{opacity:.08;}
+@media(max-width:600px){.manzeil-intro-canvas{width:160px;height:160px;max-width:60vw;}.intro-original .manzeil-intro-fallback img{width:95px;}}
+
+
