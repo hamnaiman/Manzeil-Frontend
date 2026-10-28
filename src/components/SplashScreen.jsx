@@ -11,7 +11,7 @@ export default function SplashScreen({onComplete}){
  useEffect(()=>{
   const previous=document.body.style.overflow;document.body.style.overflow="hidden";
   timer.current=setTimeout(complete,reducedMotion?900:8000);
-  if(!reducedMotion&&video.current){video.current.muted=true;video.current.playbackRate=1.8;video.current.play()?.catch(complete);}
+  if(!reducedMotion&&video.current){video.current.muted=true;video.current.playbackRate=2.4;video.current.play()?.catch(complete);}
   return()=>{clearTimeout(timer.current);document.body.style.overflow=previous;};
  },[complete,reducedMotion]);
  useEffect(()=>{
@@ -49,16 +49,18 @@ export default function SplashScreen({onComplete}){
   draw();
   return()=>cancelAnimationFrame(frame);
  },[playing,complete]);
- function started(){setPlaying(true);clearTimeout(timer.current);const duration=video.current?.duration;timer.current=setTimeout(complete,Number.isFinite(duration)?Math.min(duration/1.8*1000+3000,60000):30000);}
+ function started(){setPlaying(true);clearTimeout(timer.current);const duration=video.current?.duration;timer.current=setTimeout(complete,Number.isFinite(duration)?Math.min(duration/2.4*1000+3000,60000):30000);}
  return <motion.div className={playing?"manzeil-intro intro-original intro-playing":"manzeil-intro intro-original"} initial={{opacity:1}} exit={{opacity:0}} transition={{duration:reducedMotion?0:.5}} role="dialog" aria-modal="true" aria-label="Welcome to Manzeil">
   <div className="manzeil-intro-backdrop" aria-hidden="true"><img src={logo} alt=""/></div>
   <div className="manzeil-intro-glow" aria-hidden="true"/>
   <div className="manzeil-intro-fallback" aria-hidden="true"><img src={logo} alt=""/><span>JO TUM CHAHO</span></div>
-  {!reducedMotion&&<video ref={video} className="manzeil-intro-source" src="/videos/manzeil-intro.mp4" autoPlay muted playsInline preload="auto" onLoadedMetadata={()=>{if(video.current)video.current.playbackRate=1.8;}} onPlaying={started} onEnded={complete} onError={complete} aria-hidden="true" disablePictureInPicture disableRemotePlayback/>}
+  {!reducedMotion&&<video ref={video} className="manzeil-intro-source" src="/videos/manzeil-intro.mp4" autoPlay muted playsInline preload="auto" onLoadedMetadata={()=>{if(video.current)video.current.playbackRate=2.4;}} onPlaying={started} onEnded={complete} onError={complete} aria-hidden="true" disablePictureInPicture disableRemotePlayback/>}
   {!reducedMotion&&<canvas ref={canvas} className={playing?"manzeil-intro-canvas is-playing":"manzeil-intro-canvas"} aria-hidden="true" />}
   <button autoFocus type="button" className="manzeil-intro-skip" onClick={complete}>Skip intro <span aria-hidden="true">↗</span></button>
  </motion.div>;
 }
+
+
 
 
 
