@@ -53,7 +53,8 @@
 .manzeil-intro-canvas.is-playing{opacity:1;}
 .intro-original .manzeil-intro-fallback img{width:110px;}
 .intro-original .manzeil-intro-backdrop img{opacity:.08;}
-@media(max-width:600px){.manzeil-intro-canvas{width:150px;height:150px;max-width:60vw;}.intro-original .manzeil-intro-fallback img{width:95px;}}
+@media(max-width:600px){.manzeil-intro-canvas{width:125px;height:125px;max-width:55vw;}.intro-original .manzeil-intro-fallback img{width:95px;}}
+
 
 
 
