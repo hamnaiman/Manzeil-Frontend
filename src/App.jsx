@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
-import Home from "./pages/Home.jsx";
+const Home=lazy(()=>import("./pages/Home.jsx"));
 
 const Reviews=lazy(()=>import('./pages/admin/Reviews.jsx'));
 const Blog=lazy(()=>import('./pages/Blog.jsx'));
@@ -46,14 +46,15 @@ function StorefrontLayout({ children }) {
 }
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [pageReady,setPageReady]=useState(false);
 
   const finishSplash = React.useCallback(() => setShowSplash(false), []);
 
   return (
     <>
-      <AnimatePresence>{showSplash && <SplashScreen onComplete={finishSplash} />}</AnimatePresence>
+      <AnimatePresence onExitComplete={()=>setPageReady(true)}>{showSplash && <SplashScreen onComplete={finishSplash} />}</AnimatePresence>
 
-      <Suspense fallback={<div className="route-loading" role="status">Loading your page…</div>}>
+      {pageReady&&<Suspense fallback={<div className="route-loading" role="status">Loading your page…</div>}>
         <Routes>
           <Route path="/" element={<StorefrontLayout><Home /></StorefrontLayout>} />
           <Route path="/products" element={<StorefrontLayout><Collection /></StorefrontLayout>} />
@@ -80,10 +81,11 @@ function App() {
             <Route path="reports" element={<Reports />} /><Route path="visitors" element={<VisitorAnalytics />} /><Route path="blog" element={<BlogPosts />} /><Route path="stories" element={<Navigate to="/admin/blog" replace />} /><Route path="website" element={<WebsiteSettings />} /><Route path="messages" element={<ContactMessages />} />
           </Route>
         </Routes>
-      </Suspense>
+      </Suspense>}
     </>
   );
 }
 
 export default App;
+
 

@@ -58,3 +58,7 @@
 
 
 
+
+/* Reserve rendering time for the intro rather than extra background motion. */
+.intro-original .manzeil-intro-glow{animation:none;}
+.intro-original .manzeil-intro-canvas{contain:strict;will-change:opacity;backface-visibility:hidden;}
