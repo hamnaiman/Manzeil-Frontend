@@ -49,7 +49,7 @@
 
 /* Render the original golden animation over transparency, without dark video pixels. */
 .manzeil-intro-source{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;}
-.manzeil-intro-canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:220px;max-width:70vw;height:220px;max-height:60dvh;object-fit:contain;opacity:0;pointer-events:none;}
+.manzeil-intro-canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:190px;max-width:70vw;height:190px;max-height:60dvh;object-fit:contain;opacity:0;pointer-events:none;}
 .manzeil-intro-canvas.is-playing{opacity:1;}
 .intro-original .manzeil-intro-fallback img{width:110px;}
 .intro-original .manzeil-intro-backdrop img{opacity:.08;}
@@ -62,5 +62,6 @@
 /* Reserve rendering time for the intro rather than extra background motion. */
 .intro-original .manzeil-intro-glow{animation:none;}
 .intro-original .manzeil-intro-canvas{contain:strict;will-change:opacity;backface-visibility:hidden;}
+
 
 
